@@ -1,8 +1,35 @@
+"use client";
+
+import { login } from "@/api";
 import Breadcrumb from "@/components/Common/Breadcrumb";
+import { setAccessToken } from "@/redux/features/auth-slice";
+import { Login } from "@/types/login";
 import Link from "next/link";
 import React from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+import { useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
 const Signin = () => {
+  const dispatch = useDispatch();
+
+  const router = useRouter();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Login>();
+
+  const onSubmit: SubmitHandler<Login> = async (data) => {
+    try {
+      const res = await login(data);
+      dispatch(setAccessToken(res.data.accessToken));
+      router.push("/");
+    } catch (error) {
+      console.log(error.response?.data?.message || "Error en la autenticación");
+    }
+  };
+
   return (
     <>
       <Breadcrumb title={"Signin"} pages={["Signin"]} />
@@ -17,7 +44,7 @@ const Signin = () => {
             </div>
 
             <div>
-              <form>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="mb-5">
                   <label htmlFor="email" className="block mb-2.5">
                     Email
@@ -29,6 +56,7 @@ const Signin = () => {
                     id="email"
                     placeholder="Enter your email"
                     className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    {...register("email")}
                   />
                 </div>
 
@@ -44,6 +72,7 @@ const Signin = () => {
                     placeholder="Enter your password"
                     autoComplete="on"
                     className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+                    {...register("password")}
                   />
                 </div>
 

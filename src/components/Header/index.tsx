@@ -9,8 +9,12 @@ import { useSelector } from "react-redux";
 import { selectTotalPrice } from "@/redux/features/cart-slice";
 import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
 import Image from "next/image";
+import { decodeToken } from "react-jwt";
+import { AccesToken } from "@/types/accessToken";
 
 const Header = () => {
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
+
   const [searchQuery, setSearchQuery] = useState("");
   const [navigationOpen, setNavigationOpen] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
@@ -46,6 +50,7 @@ const Header = () => {
     { label: "Mouse", value: "6" },
     { label: "Tablet", value: "7" },
   ];
+  
 
   return (
     <header
@@ -158,7 +163,11 @@ const Header = () => {
 
             <div className="flex w-full lg:w-auto justify-between items-center gap-5">
               <div className="flex items-center gap-5">
-                <Link href="/signin" className="flex items-center gap-2.5">
+                <Link
+                  href={!accessToken ? "/auth/signin" : "/my-account"}
+                  className="flex items-center gap-2.5"
+                  // onClick={handleLogout}
+                >
                   <svg
                     width="24"
                     height="24"
@@ -181,11 +190,17 @@ const Header = () => {
                   </svg>
 
                   <div>
-                    <span className="block text-2xs text-dark-4 uppercase">
-                      account
+                    <span
+                      className={`block text-2xs text-dark-4 ${
+                        !accessToken && "uppercase"
+                      }`}
+                    >
+                      {!accessToken
+                        ? "account"
+                        : decodeToken<AccesToken>(accessToken).email}
                     </span>
                     <p className="font-medium text-custom-sm text-dark">
-                      Sign In
+                      {!accessToken && "Sign In"}
                     </p>
                   </div>
                 </Link>

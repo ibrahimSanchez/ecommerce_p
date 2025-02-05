@@ -4,6 +4,9 @@ import Breadcrumb from "../Common/Breadcrumb";
 import Image from "next/image";
 import AddressModal from "./AddressModal";
 import Orders from "../Orders";
+import { useDispatch } from "react-redux";
+import { clearAccessToken } from "@/redux/features/auth-slice";
+import { useRouter } from "next/navigation";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -17,6 +20,13 @@ const MyAccount = () => {
     setAddressModal(false);
   };
 
+  const dispatch = useDispatch();
+  const route = useRouter();
+
+  const handleLogout = () => {
+    dispatch(clearAccessToken());
+    route.push("/");
+  };
   return (
     <>
       <Breadcrumb title={"My Account"} pages={["my account"]} />
@@ -219,7 +229,7 @@ const MyAccount = () => {
                     </button>
 
                     <button
-                      onClick={() => setActiveTab("logout")}
+                      onClick={handleLogout}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
                         activeTab === "logout"
                           ? "text-white bg-blue"
