@@ -12,7 +12,6 @@ export const useCategories = () => {
       setLoading(true);
       try {
         const res = await getProductCountByCategory(); 
-        console.log(res.data)
         setCategories(res.data);
       } catch (error) {
         setError("Error loading categories");

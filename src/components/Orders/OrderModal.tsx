@@ -1,8 +1,16 @@
 import React, { useRef, useEffect } from "react";
 import OrderDetails from "./OrderDetails";
 import EditOrder from "./EditOrder";
+import { AccountOrder } from "@/types/order";
 
-const OrderModal = ({ showDetails, showEdit, toggleModal, order }: any) => {
+interface Props {
+  showDetails: boolean;
+  showEdit: boolean;
+  toggleModal: (a) => void;
+  order: AccountOrder;
+}
+
+const OrderModal = ({ showDetails, showEdit, toggleModal, order }: Props) => {
   if (!showDetails && !showEdit) {
     return null;
   }

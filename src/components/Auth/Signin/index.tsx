@@ -56,7 +56,7 @@ const Signin = () => {
                     id="email"
                     placeholder="Enter your email"
                     className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                    {...register("email")}
+                    {...register("email", { required: true })}
                   />
                 </div>
 
@@ -72,7 +72,7 @@ const Signin = () => {
                     placeholder="Enter your password"
                     autoComplete="on"
                     className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-                    {...register("password")}
+                    {...register("password", { required: true })}
                   />
                 </div>
 

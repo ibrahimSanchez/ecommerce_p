@@ -1,13 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
+import { isExpired } from "react-jwt";
 
+const token = Cookies.get("x-token") || null;
 
-const getTokenFromCookies = (): string | null => {
-  const cookies = document.cookie.split("; ");
-  const tokenCookie = cookies.find((row) => row.startsWith("x-token="));
-  return tokenCookie ? tokenCookie.split("=")[1] : null;
-};
+if (isExpired(token)) Cookies.remove("x-token");
 
-const storedAccessToken = getTokenFromCookies();
+const storedAccessToken = Cookies.get("x-token") || null;
 
 interface AuthState {
   accessToken: string | null;
@@ -23,12 +22,17 @@ const authSlice = createSlice({
   reducers: {
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload;
-      document.cookie = `x-token=${action.payload}; path=/; max-age=86400; Secure; SameSite=Strict`;
+
+      Cookies.set("x-token", action.payload, {
+        expires: 1,
+        sameSite: "Strict",
+      });
+      // document.cookie = `x-token=${action.payload}; path=/; max-age=86400; Secure; SameSite=Strict`;
     },
 
     clearAccessToken: (state) => {
       state.accessToken = null;
-      document.cookie = `x-token=; path=/; max-age=0`; 
+      Cookies.remove("x-token");
     },
   },
 });

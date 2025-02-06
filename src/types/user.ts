@@ -12,3 +12,9 @@ export type User = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type ChangePassword = {
+  newPassword: string;
+  oldPassword: string;
+  confirmNewPassword?: string;
+};

@@ -1,6 +1,11 @@
+import { AccountOrder } from "@/types/order";
 import React from "react";
 
-const OrderDetails = ({ orderItem }: any) => {
+interface Props {
+  orderItem: AccountOrder;
+}
+
+const OrderDetails = ({ orderItem }: Props) => {
   return (
     <>
       <div className="items-center justify-between py-4.5 px-7.5 hidden md:flex ">
@@ -30,13 +35,11 @@ const OrderDetails = ({ orderItem }: any) => {
 
       <div className="items-center justify-between border-t border-gray-3 py-5 px-7.5 hidden md:flex">
         <div className="min-w-[111px]">
-          <p className="text-custom-sm text-red">
-            #{orderItem.orderId.slice(-8)}
-          </p>
+          <p className="text-custom-sm text-red">#{orderItem.id.slice(-8)}</p>
         </div>
         <div className="min-w-[175px]">
           <p className="text-custom-sm text-dark">
-            {orderItem.createdAt}
+            {orderItem.createdAt.slice(0, 10)}
           </p>
         </div>
 
@@ -47,7 +50,7 @@ const OrderDetails = ({ orderItem }: any) => {
                 ? "text-green bg-green-light-6"
                 : orderItem.status === "on-hold"
                 ? "text-red bg-red-light-6"
-                : orderItem.status === "processing"
+                : orderItem.status === "pending"
                 ? "text-yellow bg-yellow-light-4"
                 : "Unknown Status"
             }`}
@@ -61,9 +64,7 @@ const OrderDetails = ({ orderItem }: any) => {
         </div> */}
 
         <div className="min-w-[113px]">
-          <p className="text-custom-sm text-dark">
-            {orderItem.total}
-          </p>
+          <p className="text-custom-sm text-dark">${orderItem.total_amount}</p>
         </div>
       </div>
       <div className="px-7.5 w-full">
