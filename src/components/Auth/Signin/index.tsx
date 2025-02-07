@@ -163,7 +163,7 @@ const Signin = () => {
                 <p className="text-center mt-6">
                   Don&apos;t have an account?
                   <Link
-                    href="/signup"
+                    href="/auth/signup"
                     className="text-dark ease-out duration-200 hover:text-blue pl-2"
                   >
                     Sign Up Now!

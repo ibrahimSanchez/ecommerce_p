@@ -48,7 +48,7 @@ const OrderDetails = ({ orderItem }: Props) => {
             className={`inline-block text-custom-sm  py-0.5 px-2.5 rounded-[30px] capitalize ${
               orderItem.status === "delivered"
                 ? "text-green bg-green-light-6"
-                : orderItem.status === "on-hold"
+                : orderItem.status === "canceled"
                 ? "text-red bg-red-light-6"
                 : orderItem.status === "pending"
                 ? "text-yellow bg-yellow-light-4"
@@ -68,8 +68,8 @@ const OrderDetails = ({ orderItem }: Props) => {
         </div>
       </div>
       <div className="px-7.5 w-full">
-        <p className="font-bold">Shipping Address:</p>{" "}
-        <p>942 Aspen Road Encino, CA 91316</p>
+        <p className="font-bold">Delivery address:</p>{" "}
+        <p>{orderItem.delivery_address}</p>
       </div>
     </>
   );

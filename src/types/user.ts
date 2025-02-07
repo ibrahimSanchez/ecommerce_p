@@ -18,3 +18,10 @@ export type ChangePassword = {
   oldPassword: string;
   confirmNewPassword?: string;
 };
+
+export type CreateUser = {
+  email: string;
+  name: string;
+  password: string;
+  confirmPassword: string;
+};

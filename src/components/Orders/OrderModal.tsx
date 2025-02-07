@@ -2,16 +2,26 @@ import React, { useRef, useEffect } from "react";
 import OrderDetails from "./OrderDetails";
 import EditOrder from "./EditOrder";
 import { AccountOrder } from "@/types/order";
+import { CancelOrder } from "./CancelOrder";
 
 interface Props {
   showDetails: boolean;
+  showCancel: boolean;
   showEdit: boolean;
   toggleModal: (a) => void;
+  loadOrders: () => void;
   order: AccountOrder;
 }
 
-const OrderModal = ({ showDetails, showEdit, toggleModal, order }: Props) => {
-  if (!showDetails && !showEdit) {
+const OrderModal = ({
+  showDetails,
+  showEdit,
+  showCancel,
+  toggleModal,
+  order,
+  loadOrders,
+}: Props) => {
+  if (!showDetails && !showEdit && !showCancel) {
     return null;
   }
 
@@ -43,6 +53,13 @@ const OrderModal = ({ showDetails, showEdit, toggleModal, order }: Props) => {
             {showDetails && <OrderDetails orderItem={order} />}
 
             {showEdit && <EditOrder order={order} toggleModal={toggleModal} />}
+            {showCancel && (
+              <CancelOrder
+                order={order}
+                toggleModal={toggleModal}
+                loadOrders={loadOrders}
+              />
+            )}
           </>
         </div>
       </div>

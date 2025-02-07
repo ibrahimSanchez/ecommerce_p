@@ -1,5 +1,5 @@
 import { Login } from "@/types/login";
-import { ChangePassword, User } from "@/types/user";
+import { ChangePassword, CreateUser, User } from "@/types/user";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -11,7 +11,7 @@ export const login = (data: Login) => {
 };
 
 // http://localhost:4000/api/auth/register
-export const register = (data: User) => {
+export const registerUser = (data: CreateUser) => {
   return axios.post(`${BASE_URL}api/auth/register`, data);
 };
 

@@ -17,7 +17,7 @@ export const ChangePasswordForm = () => {
     if (newPassword === confirmNewPassword) {
       try {
         const res = await changeassword({ newPassword, oldPassword });
-        console.log(res);
+        // console.log(res);
       } catch (error) {
         console.log(
           error.response?.data?.message || "Error en el cambio de contraseña"

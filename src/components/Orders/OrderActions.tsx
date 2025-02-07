@@ -1,6 +1,11 @@
 import React from "react";
 
-const OrderActions = ({ toggleEdit, toggleDetails }: any) => {
+const OrderActions = ({
+  toggleEdit,
+  toggleDetails,
+  toggleCancel,
+  orderStatus,
+}: any) => {
   return (
     <>
       <button
@@ -28,7 +33,7 @@ const OrderActions = ({ toggleEdit, toggleDetails }: any) => {
           />
         </svg>
       </button>
-      <button onClick={toggleEdit} className="hover:bg-gray-2 rounded-sm p-2">
+      {/* <button onClick={toggleEdit} className="hover:bg-gray-2 rounded-sm p-2">
         <svg
           width="16"
           height="18"
@@ -43,6 +48,14 @@ const OrderActions = ({ toggleEdit, toggleDetails }: any) => {
             fill="#495270"
           />
         </svg>
+      </button> */}
+
+      <button
+        disabled={orderStatus === "canceled"}
+        onClick={toggleCancel}
+        className="hover:bg-gray-2 rounded-sm p-2"
+      >
+        X
       </button>
     </>
   );

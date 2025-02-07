@@ -50,7 +50,6 @@ const Header = () => {
     { label: "Mouse", value: "6" },
     { label: "Tablet", value: "7" },
   ];
-  
 
   return (
     <header
@@ -304,7 +303,7 @@ const Header = () => {
         {/* <!-- header top end --> */}
       </div>
 
-      <div className="border-t border-gray-3">
+      <div className="border-t border-gray-3 flex justify-center">
         <div className="max-w-[1170px] mx-auto px-4 sm:px-7.5 xl:px-0">
           <div className="flex items-center justify-between">
             {/* <!--=== Main Nav Start ===--> */}
@@ -347,7 +346,7 @@ const Header = () => {
             {/* // <!--=== Main Nav End ===--> */}
 
             {/* // <!--=== Nav Right Start ===--> */}
-            <div className="hidden xl:block">
+            {/* <div className="hidden xl:block">
               <ul className="flex items-center gap-5.5">
                 <li className="py-4">
                   <a
@@ -397,7 +396,7 @@ const Header = () => {
                   </Link>
                 </li>
               </ul>
-            </div>
+            </div> */}
             {/* <!--=== Nav Right End ===--> */}
           </div>
         </div>

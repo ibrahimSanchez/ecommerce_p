@@ -29,10 +29,9 @@ const EditOrder = ({ order, toggleModal }: any) => {
           required
           onChange={handleChanege}
         >
-          <option value="processing">Processing</option>
-          <option value="on-hold">On Hold</option>
+          <option value="pending">Pending</option>
           <option value="delivered">Delivered</option>
-          <option value="cancelled">Cancelled</option>
+          <option value="canceled">Canceled</option>
         </select>
 
         <button

@@ -1,4 +1,4 @@
-import { Order } from "@/types/order";
+import { Order, OrderStatus } from "@/types/order";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -27,3 +27,18 @@ export const getOrder = () => {
 
   return axios.get(`${BASE_URL}api/orders`, config);
 };
+
+export const updateOrderStatus = (data: OrderStatus) => {
+  const accessToken = Cookies.get("x-token");
+  const { id } = data;
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  return axios.patch(`${BASE_URL}api/orders/change-status/${id}`, data, config);
+};
+
+// /change-status/:id
