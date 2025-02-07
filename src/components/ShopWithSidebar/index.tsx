@@ -16,9 +16,14 @@ const ShopWithSidebar = () => {
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
 
-  const { shopData } = useProducts();
-
+  const { shopData, categoriesId, addCategoriesId, removeCategoriesId } =
+    useProducts();
   const { categories } = useCategories();
+
+  const filteredProducts = categoriesId.length
+    ? shopData.filter((product) => categoriesId.includes(product.categoryId))
+    : shopData;
+
   const handleStickyMenu = () => {
     if (window.scrollY >= 80) {
       setStickyMenu(true);
@@ -32,9 +37,8 @@ const ShopWithSidebar = () => {
     { label: "Best Selling", value: "1" },
     { label: "Old Products", value: "2" },
   ];
-
-
-// console.log(categories.title)
+  //
+  // console.log(categories.title)
 
   // const categories = [
   //   {
@@ -163,24 +167,33 @@ const ShopWithSidebar = () => {
                   </div>
 
                   {/* <!-- category box --> */}
-                  <CategoryDropdown categories={categories} />
-
+                  <CategoryDropdown
+                    categories={categories}
+                    addCategoriesId={addCategoriesId}
+                    removeCategoriesId={removeCategoriesId}
+                  />
+                  {
+                    //TODO: Filtros
+                  }
                   {/* <!-- gender box --> */}
-                  <GenderDropdown genders={genders} />
+                  {/* <GenderDropdown genders={genders} /> */}
 
                   {/* // <!-- size box --> */}
-                  <SizeDropdown />
+                  {/* <SizeDropdown /> */}
 
                   {/* // <!-- color box --> */}
-                  <ColorsDropdwon />
+                  {/* <ColorsDropdwon /> */}
 
                   {/* // <!-- price range box --> */}
-                  <PriceDropdown />
+                  {/* <PriceDropdown /> */}
                 </div>
               </form>
             </div>
             {/* // <!-- Sidebar End --> */}
 
+            {
+              //TODO: productos
+            }
             {/* // <!-- Content Start --> */}
             <div className="xl:max-w-[870px] w-full">
               <div className="rounded-lg bg-white shadow-1 pl-3 pr-2.5 py-2.5 mb-6">
@@ -284,7 +297,7 @@ const ShopWithSidebar = () => {
                     : "flex flex-col gap-7.5"
                 }`}
               >
-                {shopData.map((item, key) =>
+                {filteredProducts.map((item, key) =>
                   productStyle === "grid" ? (
                     <SingleGridItem item={item} key={key} />
                   ) : (

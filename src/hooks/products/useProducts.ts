@@ -6,6 +6,7 @@ export const useProducts = () => {
   const [shopData, setShopData] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [categoriesId, setCategoriesId] = useState<string[]>([]);
 
   useEffect(() => {
     const loadAllProduct = async () => {
@@ -23,5 +24,22 @@ export const useProducts = () => {
     loadAllProduct();
   }, []);
 
-  return { shopData, loading, error };
+  const addCategoriesId = (id: string) => {
+    setCategoriesId([...categoriesId, id]);
+  };
+
+  const removeCategoriesId = (id: string) => {
+    let categories = categoriesId;
+    categories = categories.filter((item) => item != id);
+    setCategoriesId(categories);
+  };
+
+  return {
+    shopData,
+    loading,
+    error,
+    categoriesId,
+    addCategoriesId,
+    removeCategoriesId,
+  };
 };

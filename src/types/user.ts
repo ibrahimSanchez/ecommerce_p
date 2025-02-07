@@ -25,3 +25,8 @@ export type CreateUser = {
   password: string;
   confirmPassword: string;
 };
+
+export type UpdateUser = {
+  email?: string;
+  name?: string;
+};
