@@ -16,7 +16,7 @@ export const createOrder = (data: Order) => {
   return axios.post(`${BASE_URL}api/orders`, data, config);
 };
 
-export const getOrder = () => {
+export const getOrderByUser = () => {
   const accessToken = Cookies.get("x-token");
 
   const config = {
@@ -25,7 +25,19 @@ export const getOrder = () => {
     },
   };
 
-  return axios.get(`${BASE_URL}api/orders`, config);
+  return axios.get(`${BASE_URL}api/orders/me`, config);
+};
+
+export const getAllOrder = () => {
+  const accessToken = Cookies.get("x-token");
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  };
+
+  return axios.get(`${BASE_URL}api/orders/admin`, config);
 };
 
 export const updateOrderStatus = (data: OrderStatus) => {

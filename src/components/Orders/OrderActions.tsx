@@ -10,7 +10,7 @@ const OrderActions = ({
     <>
       <button
         onClick={toggleDetails}
-        className="hover:bg-gray-2 rounded-sm p-2"
+        className="hover:bg-gray-2 rounded-sm p-2 hidden md:flex"
       >
         <svg
           width="18"

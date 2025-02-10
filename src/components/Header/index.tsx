@@ -11,6 +11,7 @@ import { useCartModalContext } from "@/app/context/CartSidebarModalContext";
 import Image from "next/image";
 import { decodeToken } from "react-jwt";
 import { AccesToken } from "@/types/accessToken";
+import { jwtData } from "@/helper";
 
 const Header = () => {
   const accessToken = useAppSelector((state) => state.auth.accessToken);
@@ -317,7 +318,29 @@ const Header = () => {
               <nav>
                 <ul className="flex xl:items-center flex-col xl:flex-row gap-5 xl:gap-6">
                   {menuData.map((menuItem, i) =>
-                    menuItem.submenu ? (
+                    menuItem.isAdmin ? (
+                      jwtData() === "admin_role" && (menuItem.submenu ? (
+                        <Dropdown
+                          key={i}
+                          menuItem={menuItem}
+                          stickyMenu={stickyMenu}
+                        />
+                      ) : (
+                        <li
+                          key={i}
+                          className="group relative before:w-0 before:h-[3px] before:bg-blue before:absolute before:left-0 before:top-0 before:rounded-b-[3px] before:ease-out before:duration-200 hover:before:w-full "
+                        >
+                          <Link
+                            href={menuItem.path}
+                            className={`hover:text-blue text-custom-sm font-medium text-dark flex ${
+                              stickyMenu ? "xl:py-4" : "xl:py-6"
+                            }`}
+                          >
+                            {menuItem.title}
+                          </Link>
+                        </li>
+                      ))
+                    ) : menuItem.submenu ? (
                       <Dropdown
                         key={i}
                         menuItem={menuItem}

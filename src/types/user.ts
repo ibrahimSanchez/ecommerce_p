@@ -4,6 +4,8 @@ export type User = {
   email: string;
   name: string;
   password: string;
+  phone: string;
+  address: string;
 
   active?: boolean;
   activation_token?: string;
@@ -22,6 +24,8 @@ export type ChangePassword = {
 export type CreateUser = {
   email: string;
   name: string;
+  phone: string;
+  address: string;
   password: string;
   confirmPassword: string;
 };

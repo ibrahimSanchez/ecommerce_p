@@ -5,13 +5,22 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import { setAccessToken } from "@/redux/features/auth-slice";
 import { Login } from "@/types/login";
 import Link from "next/link";
-import React from "react";
+import React, { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import { NotificationAttributes } from "@/types/notificationAttributes";
+import Notification from "@/components/notification/Notification";
 
 const Signin = () => {
   const dispatch = useDispatch();
+
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationAttributes, setNotificationAttributes] =
+    useState<NotificationAttributes>({
+      message: "",
+      error: false,
+    });
 
   const router = useRouter();
   const {
@@ -26,12 +35,22 @@ const Signin = () => {
       dispatch(setAccessToken(res.data.accessToken));
       router.push("/");
     } catch (error) {
-      console.log(error.response?.data?.message || "Error en la autenticación");
+      setNotificationAttributes({
+        message: error.response?.data?.message || "Error en la autenticación",
+        error: true,
+      });
+      setShowNotification(true);
     }
   };
 
   return (
     <>
+      {showNotification && (
+        <Notification
+          notificationAttributes={notificationAttributes}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <Breadcrumb title={"Signin"} pages={["Signin"]} />
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
@@ -143,7 +162,7 @@ const Signin = () => {
                     Sign In with Google
                   </button>
 
-                  <button className="flex justify-center items-center gap-3.5 rounded-lg border border-gray-3 bg-gray-1 p-3 ease-out duration-200 hover:bg-gray-2">
+                  {/* <button className="flex justify-center items-center gap-3.5 rounded-lg border border-gray-3 bg-gray-1 p-3 ease-out duration-200 hover:bg-gray-2">
                     <svg
                       width="22"
                       height="22"
@@ -157,7 +176,7 @@ const Signin = () => {
                       />
                     </svg>
                     Sign Up with Github
-                  </button>
+                  </button> */}
                 </div>
 
                 <p className="text-center mt-6">

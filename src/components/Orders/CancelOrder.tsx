@@ -27,13 +27,13 @@ export const CancelOrder = ({ order, toggleModal, loadOrders }: any) => {
       <div className="flex justify-between">
         <button
           onClick={handleAccept}
-          className="mt-5 mx-5 w-full rounded-[10px] border border-blue-1 bg-blue-1 text-white py-3.5 px-5 text-custom-sm bg-blue"
+          className="mt-5 mx-5 w-full rounded-[10px] border border-blue-1 bg-blue-1 text-white py-3.5 px-5 text-custom-sm bg-blue-light"
         >
           Accept
         </button>
         <button
           onClick={handleCancel}
-          className="mt-5 mx-5 w-full rounded-[10px] border border-blue-1 bg-blue-1 text-white py-3.5 px-5 text-custom-sm bg-red"
+          className="mt-5 mx-5 w-full rounded-[10px] border border-blue-1 bg-blue-1 text-white py-3.5 px-5 text-custom-sm bg-red-light"
         >
           Cancel
         </button>

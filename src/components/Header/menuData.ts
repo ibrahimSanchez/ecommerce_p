@@ -14,24 +14,12 @@ export const menuData: Menu[] = [
     path: "/shop-with-sidebar",
   },
   {
-    id: 65,
+    id: 3,
     title: "Cart",
     newTab: false,
     path: "/cart",
   },
 
-  // {
-  //   id: 6,
-  //   title: "pages",
-  //   newTab: false,
-  //   path: "/",
-  //   submenu: [
-  //     {
-  //       id: 61,
-  //       title: "Shop With Sidebar",
-  //       newTab: false,
-  //       path: "/shop-with-sidebar",
-  //     },
   // {
   //   id: 62,
   //   title: "Shop Without Sidebar",
@@ -95,31 +83,31 @@ export const menuData: Menu[] = [
   //   ],
   // },
   {
-    id: 7,
+    id: 4,
     title: "blogs",
     newTab: false,
     path: "/",
     submenu: [
       {
-        id: 71,
+        id: 41,
         title: "Blog Grid with sidebar",
         newTab: false,
         path: "/blogs/blog-grid-with-sidebar",
       },
       {
-        id: 72,
+        id: 42,
         title: "Blog Grid",
         newTab: false,
         path: "/blogs/blog-grid",
       },
       {
-        id: 73,
+        id: 43,
         title: "Blog details with sidebar",
         newTab: false,
         path: "/blogs/blog-details-with-sidebar",
       },
       {
-        id: 74,
+        id: 44,
         title: "Blog details",
         newTab: false,
         path: "/blogs/blog-details",
@@ -127,9 +115,37 @@ export const menuData: Menu[] = [
     ],
   },
   {
-    id: 3,
+    id: 5,
     title: "Contact",
     newTab: false,
     path: "/contact",
+  },
+
+  {
+    id: 6,
+    title: "Admin panel",
+    newTab: false,
+    isAdmin: true,
+    path: "/",
+    submenu: [
+      {
+        id: 61,
+        title: "Manage Users",
+        newTab: false,
+        path: "/admin/users",
+      },
+      {
+        id: 62,
+        title: "Manage Products",
+        newTab: false,
+        path: "/admin/products",
+      },
+      {
+        id: 63,
+        title: "Manage Orders",
+        newTab: false,
+        path: "/admin/orders",
+      },
+    ],
   },
 ];

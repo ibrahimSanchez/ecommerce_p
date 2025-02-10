@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Breadcrumb from "../Common/Breadcrumb";
 import Image from "next/image";
 import AddressModal from "./AddressModal";
@@ -9,10 +9,14 @@ import { clearAccessToken } from "@/redux/features/auth-slice";
 import { useRouter } from "next/navigation";
 import { ChangePasswordForm } from "../form/ChangePasswordForm";
 import { useUsers } from "@/hooks";
+import { ConfirmAction } from "../modals/ConfirmAction";
+import { jwtData } from "@/helper";
+import AdminPanel from "../admin";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
   const [addressModal, setAddressModal] = useState(false);
+  const [confirmActionModal, setConfirmActionModal] = useState(false);
 
   const { userAccount, loadUserAccount } = useUsers();
 
@@ -28,11 +32,27 @@ const MyAccount = () => {
   const route = useRouter();
 
   const handleLogout = () => {
+    setConfirmActionModal(true);
+  };
+
+  const handleAccept = async () => {
     dispatch(clearAccessToken());
     route.push("/");
   };
+
+  jwtData();
+
   return (
     <>
+      {confirmActionModal && (
+        <ConfirmAction
+          message="Are you sure you want to log out?"
+          confirmText="Yes"
+          cancelText="No"
+          onConfirm={handleAccept}
+          onCancel={() => setConfirmActionModal(false)}
+        />
+      )}
       <Breadcrumb title={"My Account"} pages={["my account"]} />
 
       <section className="overflow-hidden py-20 bg-gray-2">
@@ -231,6 +251,44 @@ const MyAccount = () => {
                       </svg>
                       Change password
                     </button>
+
+                    {
+                      //Todo: **********************************************************************************************
+
+                      jwtData() === "admin_role" && (
+                        <button
+                          onClick={() => setActiveTab("admin-panel")}
+                          className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
+                            activeTab === "admin-panel"
+                              ? "text-white bg-blue"
+                              : "text-dark-2 bg-gray-1"
+                          }`}
+                        >
+                          <svg
+                            className="fill-current"
+                            width="22"
+                            height="22"
+                            viewBox="0 0 22 22"
+                            fill="none"
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M10.9995 1.14581C8.59473 1.14581 6.64531 3.09524 6.64531 5.49998C6.64531 7.90472 8.59473 9.85415 10.9995 9.85415C13.4042 9.85415 15.3536 7.90472 15.3536 5.49998C15.3536 3.09524 13.4042 1.14581 10.9995 1.14581ZM8.02031 5.49998C8.02031 3.85463 9.35412 2.52081 10.9995 2.52081C12.6448 2.52081 13.9786 3.85463 13.9786 5.49998C13.9786 7.14533 12.6448 8.47915 10.9995 8.47915C9.35412 8.47915 8.02031 7.14533 8.02031 5.49998Z"
+                              fill=""
+                            />
+                            <path
+                              fillRule="evenodd"
+                              clipRule="evenodd"
+                              d="M10.9995 11.2291C8.87872 11.2291 6.92482 11.7112 5.47697 12.5256C4.05066 13.3279 2.97864 14.5439 2.97864 16.0416L2.97858 16.1351C2.97754 17.2001 2.97624 18.5368 4.14868 19.4916C4.7257 19.9614 5.53291 20.2956 6.6235 20.5163C7.71713 20.7377 9.14251 20.8541 10.9995 20.8541C12.8564 20.8541 14.2818 20.7377 15.3754 20.5163C16.466 20.2956 17.2732 19.9614 17.8503 19.4916C19.0227 18.5368 19.0214 17.2001 19.0204 16.1351L19.0203 16.0416C19.0203 14.5439 17.9483 13.3279 16.522 12.5256C15.0741 11.7112 13.1202 11.2291 10.9995 11.2291ZM4.35364 16.0416C4.35364 15.2612 4.92324 14.4147 6.15108 13.724C7.35737 13.0455 9.07014 12.6041 10.9995 12.6041C12.9288 12.6041 14.6416 13.0455 15.8479 13.724C17.0757 14.4147 17.6453 15.2612 17.6453 16.0416C17.6453 17.2405 17.6084 17.9153 16.982 18.4254C16.6424 18.702 16.0746 18.9719 15.1027 19.1686C14.1338 19.3648 12.8092 19.4791 10.9995 19.4791C9.18977 19.4791 7.86515 19.3648 6.89628 19.1686C5.92437 18.9719 5.35658 18.702 5.01693 18.4254C4.39059 17.9153 4.35364 17.2405 4.35364 16.0416Z"
+                              fill=""
+                            />
+                          </svg>
+                          Admin panel
+                        </button>
+                      )
+                    }
 
                     <button
                       onClick={handleLogout}
@@ -552,7 +610,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: 1234 567890
+                      Phone: {userAccount?.phone}
                     </p>
 
                     <p className="flex gap-2.5 text-custom-sm">
@@ -578,7 +636,7 @@ const MyAccount = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      Address: 7398 Smoke Ranch RoadLas Vegas, Nevada 89128
+                      Address: {userAccount?.address}
                     </p>
                   </div>
                 </div>
@@ -596,6 +654,15 @@ const MyAccount = () => {
 
               <ChangePasswordForm />
             </div>
+
+            <div
+              className={`xl:max-w-[770px] w-full ${
+                activeTab === "admin-panel" ? "block" : "hidden"
+              }`}
+            >
+              <AdminPanel />
+            </div>
+
             {/* <!-- details tab content end -->
           <!--== user dashboard content end ==--> */}
           </div>

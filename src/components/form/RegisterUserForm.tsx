@@ -1,12 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { registerUser } from "@/api";
 import { CreateUser } from "@/types/user";
 import Link from "next/link";
+import Notification from "../notification/Notification";
+import { NotificationAttributes } from "@/types/notificationAttributes";
+import { useRouter } from "next/navigation";
 
 export const RegisterUserForm = () => {
+  const router = useRouter();
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationAttributes, setNotificationAttributes] =
+    useState<NotificationAttributes>({
+      message: "",
+      error: false,
+    });
+
   const {
     register,
     handleSubmit,
@@ -18,17 +29,34 @@ export const RegisterUserForm = () => {
     if (password === confirmPassword) {
       try {
         const res = await registerUser(data);
-        console.log(res);
+        setNotificationAttributes({
+          message: "Registro exitoso",
+          error: false,
+        });
+        setShowNotification(true);
+
+        setTimeout(() => {
+          router.push("/auth/signin");
+        }, 2500);
       } catch (error) {
-        console.log(
-          error.response?.data?.message || "Error al registrar el usuario"
-        );
+        setNotificationAttributes({
+          message:
+            error.response?.data?.message || "Error al registrar el usuario",
+          error: true,
+        });
+        setShowNotification(true);
       }
     }
   };
 
   return (
     <div className="mt-5.5">
+      {showNotification && (
+        <Notification
+          notificationAttributes={notificationAttributes}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5">
           <label htmlFor="name" className="block mb-2.5">
@@ -57,6 +85,36 @@ export const RegisterUserForm = () => {
             placeholder="Enter your email address"
             className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
             {...register("email", { required: true })}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2.5">
+            Phone <span className="text-red">*</span>
+          </label>
+
+          <input
+            type="phone"
+            name="phone"
+            id="phone"
+            placeholder="Enter your phone"
+            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+            {...register("phone", { required: true })}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2.5">
+          Address <span className="text-red">*</span>
+          </label>
+
+          <input
+            type="address"
+            name="address"
+            id="address"
+            placeholder="Enter your address"
+            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+            {...register("address", { required: true })}
           />
         </div>
 

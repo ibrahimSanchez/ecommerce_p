@@ -5,11 +5,13 @@ import {
   selectTotalPrice,
 } from "@/redux/features/cart-slice";
 import { useAppSelector } from "@/redux/store";
-import React from "react";
+import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
+import Notification from "../notification/Notification";
+import { NotificationAttributes } from "@/types/notificationAttributes";
 
-type AA = {
+type FormData = {
   delivery_address: string;
 };
 
@@ -18,13 +20,20 @@ const OrderSummary = () => {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<AA>();
+  } = useForm<FormData>();
 
   const cartItems = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
   const dispatch = useDispatch();
 
-  const onSubmit: SubmitHandler<AA> = async (data) => {
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationAttributes, setNotificationAttributes] =
+    useState<NotificationAttributes>({
+      message: "",
+      error: false,
+    });
+
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
     const arrayItems = cartItems.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
@@ -38,12 +47,33 @@ const OrderSummary = () => {
         delivery_address: data.delivery_address,
       });
       // console.log(res);
-      dispatch(removeAllItemsFromCart());
-    } catch (error) {}
+      setNotificationAttributes({
+        message: "Purchase order added",
+        error: false,
+      });
+      setShowNotification(true);
+
+      setTimeout(() => {
+        dispatch(removeAllItemsFromCart());
+      }, 2500);
+    } catch (error) {
+      setNotificationAttributes({
+        message: error.response?.data?.message || "An error occurred",
+        error: true,
+      });
+      setShowNotification(true);
+    }
   };
 
   return (
     <div className="lg:max-w-[455px] w-full">
+      {showNotification && (
+        <Notification
+          notificationAttributes={notificationAttributes}
+          onClose={() => setShowNotification(false)}
+        />
+      )}
+
       {/* <!-- order list box --> */}
       <div className="bg-white shadow-1 rounded-[10px]">
         <div className="border-b border-gray-3 py-5 px-4 sm:px-8.5">

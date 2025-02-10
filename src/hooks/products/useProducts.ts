@@ -8,19 +8,19 @@ export const useProducts = () => {
   const [error, setError] = useState<string | null>(null);
   const [categoriesId, setCategoriesId] = useState<string[]>([]);
 
-  useEffect(() => {
-    const loadAllProduct = async () => {
-      setLoading(true);
-      try {
-        const res = await getAllProduct();
-        setShopData(res.data);
-      } catch (error) {
-        setError("Error loading products");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const loadAllProduct = async () => {
+    setLoading(true);
+    try {
+      const res = await getAllProduct();
+      setShopData(res.data);
+    } catch (error) {
+      setError("Error loading products");
+    } finally {
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadAllProduct();
   }, []);
 
@@ -41,5 +41,6 @@ export const useProducts = () => {
     categoriesId,
     addCategoriesId,
     removeCategoriesId,
+    loadAllProduct,
   };
 };

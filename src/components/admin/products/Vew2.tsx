@@ -11,7 +11,7 @@ import { AppDispatch } from "@/redux/store";
 import Link from "next/link";
 import Image from "next/image";
 
-const SingleListItem = ({ item }: { item: Product }) => {
+const Vew2 = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -79,13 +79,6 @@ const SingleListItem = ({ item }: { item: Product }) => {
             </button>
 
             <button
-              onClick={() => handleAddToCart()}
-              className="inline-flex font-medium text-custom-sm py-[7px] px-5 rounded-[5px] bg-blue text-white ease-out duration-200 hover:bg-blue-dark"
-            >
-              Add to cart
-            </button>
-
-            <button
               onClick={() => handleItemToWishList()}
               aria-label="button for favorite select"
               className="flex items-center justify-center w-9 h-9 rounded-[5px] shadow-1 ease-out duration-200 text-dark bg-white hover:text-blue"
@@ -142,4 +135,4 @@ const SingleListItem = ({ item }: { item: Product }) => {
   );
 };
 
-export default SingleListItem;
+export default Vew2;

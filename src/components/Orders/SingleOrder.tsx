@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import OrderActions from "./OrderActions";
 import OrderModal from "./OrderModal";
@@ -120,10 +121,17 @@ const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
             </div>
 
             <div className="">
+              <p className="text-custom-sm text-dark">
+                <span className="font-bold pr-2">Delivery address:</span>{" "}
+                {orderItem.delivery_address}
+              </p>
+            </div>
+
+            <div className="">
               <p className="text-custom-sm text-dark flex items-center">
                 <span className="font-bold pr-2">Actions:</span>{" "}
                 <OrderActions
-                orderStatus={orderItem.status}
+                  orderStatus={orderItem.status}
                   toggleDetails={toggleDetails}
                   toggleEdit={toggleEdit}
                   toggleCancel={toggleCancel}

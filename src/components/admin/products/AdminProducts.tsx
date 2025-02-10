@@ -1,23 +1,24 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Breadcrumb from "../Common/Breadcrumb";
-import CategoryDropdown from "./CategoryDropdown";
-// import CustomSelect from "./CustomSelect";
-// import GenderDropdown from "./GenderDropdown";
-// import SizeDropdown from "./SizeDropdown";
-// import ColorsDropdwon from "./ColorsDropdwon";
-// import PriceDropdown from "./PriceDropdown";
-import SingleGridItem from "../Shop/SingleGridItem";
-import SingleListItem from "../Shop/SingleListItem";
 import { useCategories, useProducts } from "@/hooks";
+import Breadcrumb from "@/components/Common/Breadcrumb";
+import CategoryDropdown from "@/components/ShopWithSidebar/CategoryDropdown";
+import { AddProduct } from "./AddProduct";
+import Vew1 from "./Vew1";
+import Vew2 from "./Vew2";
 
-const ShopWithSidebar = () => {
+const AdminProducts = () => {
   const [productStyle, setProductStyle] = useState("grid");
   const [productSidebar, setProductSidebar] = useState(false);
   const [stickyMenu, setStickyMenu] = useState(false);
 
-  const { shopData, categoriesId, addCategoriesId, removeCategoriesId } =
-    useProducts();
+  const {
+    shopData,
+    categoriesId,
+    addCategoriesId,
+    removeCategoriesId,
+    loadAllProduct,
+  } = useProducts();
   const { categories } = useCategories();
 
   const filteredProducts = categoriesId.length
@@ -31,62 +32,6 @@ const ShopWithSidebar = () => {
       setStickyMenu(false);
     }
   };
-
-  const options = [
-    { label: "Latest Products", value: "0" },
-    { label: "Best Selling", value: "1" },
-    { label: "Old Products", value: "2" },
-  ];
-  //
-  // console.log(categories.title)
-
-  // const categories = [
-  //   {
-  //     name: "Desktop",
-  //     products: 10,
-  //     isRefined: true,
-  //   },
-  //   {
-  //     name: "Laptop",
-  //     products: 12,
-  //     isRefined: false,
-  //   },
-  //   {
-  //     name: "Monitor",
-  //     products: 30,
-  //     isRefined: false,
-  //   },
-  //   {
-  //     name: "UPS",
-  //     products: 23,
-  //     isRefined: false,
-  //   },
-  //   {
-  //     name: "Phone",
-  //     products: 10,
-  //     isRefined: false,
-  //   },
-  //   {
-  //     name: "Watch",
-  //     products: 13,
-  //     isRefined: false,
-  //   },
-  // ];
-
-  const genders = [
-    {
-      name: "Men",
-      products: 10,
-    },
-    {
-      name: "Women",
-      products: 23,
-    },
-    {
-      name: "Unisex",
-      products: 8,
-    },
-  ];
 
   useEffect(() => {
     window.addEventListener("scroll", handleStickyMenu);
@@ -110,9 +55,10 @@ const ShopWithSidebar = () => {
   return (
     <>
       <Breadcrumb
-        title={"Explore All Products"}
-        pages={["shop", "/", "shop with sidebar"]}
+        title={"Manage Products"}
+        pages={["shop", "/", "Manage products"]}
       />
+
       <section className="overflow-hidden relative pb-20 pt-5 lg:pt-20 xl:pt-28 bg-[#f3f4f6]">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">
           <div className="flex gap-7.5">
@@ -172,20 +118,6 @@ const ShopWithSidebar = () => {
                     addCategoriesId={addCategoriesId}
                     removeCategoriesId={removeCategoriesId}
                   />
-                  {
-                    //TODO: Filtros
-                  }
-                  {/* <!-- gender box --> */}
-                  {/* <GenderDropdown genders={genders} /> */}
-
-                  {/* // <!-- size box --> */}
-                  {/* <SizeDropdown /> */}
-
-                  {/* // <!-- color box --> */}
-                  {/* <ColorsDropdwon /> */}
-
-                  {/* // <!-- price range box --> */}
-                  {/* <PriceDropdown /> */}
                 </div>
               </form>
             </div>
@@ -201,7 +133,6 @@ const ShopWithSidebar = () => {
                   {/* <!-- top bar left --> */}
                   <div className="flex flex-wrap items-center gap-4">
                     {/* <CustomSelect options={options} /> */}
-
                     <p>
                       Showing{" "}
                       <span className="text-dark">
@@ -292,6 +223,9 @@ const ShopWithSidebar = () => {
                 </div>
               </div>
 
+              {
+                //Todo: ***************************************************************************************
+              }
               {/* <!-- Products Grid Tab Content Start --> */}
               <div
                 className={`${
@@ -302,14 +236,22 @@ const ShopWithSidebar = () => {
               >
                 {filteredProducts.map((item, key) =>
                   productStyle === "grid" ? (
-                    <SingleGridItem item={item} key={key} />
+                    <Vew1
+                      item={item}
+                      key={key}
+                      loadAllProduct={loadAllProduct}
+                    />
                   ) : (
-                    <SingleListItem item={item} key={key} />
+                    <Vew2 item={item} key={key} />
                   )
                 )}
+
+                <AddProduct />
               </div>
               {/* <!-- Products Grid Tab Content End --> */}
-
+              {
+                //Todo: ***************************************************************************************
+              }
               {/* <!-- Products Pagination Start --> */}
               <div className="flex justify-center mt-15">
                 <div className="bg-white shadow-1 rounded-md p-2">
@@ -436,4 +378,4 @@ const ShopWithSidebar = () => {
   );
 };
 
-export default ShopWithSidebar;
+export default AdminProducts;
