@@ -5,10 +5,10 @@ import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { AppDispatch, useAppSelector } from "@/redux/store";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import { useDispatch } from "react-redux";
-import Image from "next/image";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
 import { resetQuickView } from "@/redux/features/quickView-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
+import CustomImage from "../images/CustomImage";
 
 const QuickViewModal = () => {
   const { isModalOpen, closeModal } = useModalContext();
@@ -102,7 +102,7 @@ const QuickViewModal = () => {
                         activePreview === key && "border-2 border-blue"
                       }`}
                     >
-                      <Image
+                      <CustomImage
                         src={img || ""}
                         alt="thumbnail"
                         width={61}
@@ -137,7 +137,7 @@ const QuickViewModal = () => {
                       </svg>
                     </button>
 
-                    <Image
+                    <CustomImage
                       src={product?.imgs?.previews?.[activePreview]}
                       alt="products-details"
                       width={400}

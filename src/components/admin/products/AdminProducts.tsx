@@ -237,12 +237,16 @@ const AdminProducts = () => {
                 {filteredProducts.map((item, key) =>
                   productStyle === "grid" ? (
                     <Vew1
-                      item={item}
                       key={key}
+                      item={item}
                       loadAllProduct={loadAllProduct}
                     />
                   ) : (
-                    <Vew2 item={item} key={key} />
+                    <Vew2
+                      key={key}
+                      item={item}
+                      loadAllProduct={loadAllProduct}
+                    />
                   )
                 )}
 

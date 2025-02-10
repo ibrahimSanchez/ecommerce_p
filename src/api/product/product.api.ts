@@ -1,6 +1,6 @@
 import axios from "axios";
 import Cookies from "js-cookie";
-import { Product } from "@/types/product";
+import { Product, ProductImage } from "@/types/product";
 
 const BASE_URL = process.env.NEXT_PUBLIC_URL_API_BACKEND;
 
@@ -11,13 +11,54 @@ export const getAllProduct = () => {
 export const updateProductById = (id: string, data: Product) => {
   const accessToken = Cookies.get("x-token");
 
-  console.log(data.imgs);
+  // console.log(data);
 
   const config = {
     headers: {
       Authorization: accessToken,
     },
   };
-  // return axios.patch(`${BASE_URL}api/products/${id}`, data, config);
-  return {};
+  return axios.patch(`${BASE_URL}api/products/${id}`, data, config);
+  // return {};
+};
+
+export const uploadProductImage = (data) => {
+  return axios.post(`${BASE_URL}api/file/upload`, data);
+};
+export const uploadAllProductImages = async (productImages: ProductImage) => {
+  const createFormDataArray = (images: string[]) =>
+    images.map((image) => {
+      const formData = new FormData();
+      formData.append("file", image);
+      return formData;
+    });
+
+  const thumbnailsFormDataArray = createFormDataArray(productImages.thumbnails);
+  const previewsFormDataArray = createFormDataArray(productImages.previews);
+
+  try {
+    const thumbnailsRes = await Promise.allSettled(
+      thumbnailsFormDataArray.map((formData) => uploadProductImage(formData))
+    );
+
+    const previewsRes = await Promise.allSettled(
+      previewsFormDataArray.map((formData) => uploadProductImage(formData))
+    );
+
+    const successfulThumbnails = thumbnailsRes
+      .filter((res) => res.status === "fulfilled")
+      .map((res: any) => res.value);
+
+    const successfulPreviews = previewsRes
+      .filter((res) => res.status === "fulfilled")
+      .map((res: any) => res.value);
+
+    return {
+      thumbnailsRes: successfulThumbnails,
+      previewsRes: successfulPreviews,
+    };
+  } catch (error) {
+    console.error("Error subiendo imágenes:", error);
+    return null;
+  }
 };

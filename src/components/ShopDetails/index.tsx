@@ -6,6 +6,7 @@ import Newsletter from "../Common/Newsletter";
 import RecentlyViewdItems from "./RecentlyViewd";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
 import { useAppSelector } from "@/redux/store";
+import CustomImage from "../images/CustomImage";
 
 const ShopDetails = () => {
   const [activeColor, setActiveColor] = useState("blue");
@@ -129,7 +130,7 @@ const ShopDetails = () => {
                         </svg>
                       </button>
 
-                      <Image
+                      <CustomImage
                         src={product.imgs?.previews[previewImg]}
                         alt="products-details"
                         width={400}

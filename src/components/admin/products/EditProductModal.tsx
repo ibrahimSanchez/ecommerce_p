@@ -1,11 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Product } from "@/types/product";
+import { Product, ProductImage } from "@/types/product";
 import { MdOutlineClose } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { updateProductById } from "@/api";
+import { updateProductById, uploadAllProductImages } from "@/api";
 import { NotificationAttributes } from "@/types/notificationAttributes";
 import Notification from "@/components/notification/Notification";
+import { ProductImageForm } from "@/components/form/ProductImageForm";
+import { buildImages } from "@/helper";
 
 interface Props {
   item: Product;
@@ -20,7 +22,10 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
       message: "",
       error: false,
     });
-
+  const [files, setFiles] = useState<ProductImage>({
+    previews: [],
+    thumbnails: [],
+  });
   const {
     register,
     handleSubmit,
@@ -30,6 +35,32 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
 
   const onSubmit: SubmitHandler<Product> = async (data) => {
     try {
+
+      if (files.previews.length === 0 && files.thumbnails.length === 0) {
+        updateAction(data);
+      } else {
+        const uploadRes = await uploadAllProductImages(files);
+
+        if (uploadRes) {
+          const formattedImages = buildImages(uploadRes); 
+
+          data.imgs = formattedImages; 
+
+          updateAction(data);
+        }
+      }
+    } catch (error) {
+      setNotificationAttributes({
+        message: error.response?.data?.message || "An error occurred",
+        error: true,
+      });
+      setShowNotification(true);
+    }
+  };
+
+  const updateAction = async (data) => {
+    try {
+      console.log(data);
       const res = await updateProductById(item.id, data);
       loadAllProduct();
       setNotificationAttributes({
@@ -53,20 +84,6 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
   useEffect(() => {
     reset(item);
   }, [item, reset]);
-
-
-  const convertImage = (e) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        if (typeof reader.result === "string") {
-          console.log("Base64 Image:", reader.result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   return (
     <>
@@ -190,15 +207,8 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
               </div>
 
               {/* Image Upload (Previews) */}
-              <div className="mb-5">
-                <label className="block mb-2.5">Upload Image (Previews)</label>
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="w-full p-2 border border-gray-300 rounded-lg"
-                  onChange={convertImage}
-                />
-              </div>
+
+              <ProductImageForm files={files} setFiles={setFiles} />
 
               <div className="flex justify-end gap-2 mt-4">
                 <button

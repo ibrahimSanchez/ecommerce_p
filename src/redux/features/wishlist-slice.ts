@@ -12,8 +12,8 @@ type WishListItem = {
   quantity: number;
   status?: string;
   imgs?: {
-    thumbnails: string[];
-    previews: string[];
+    thumbnails?: string[];
+    previews?: string[];
   };
 };
 

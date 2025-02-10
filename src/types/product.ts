@@ -8,8 +8,10 @@ export type Product = {
   categoryId?: string;
   description?: string;
 
-  imgs?: {
-    thumbnails: string[];
-    previews: string[];
-  };
+  imgs?: ProductImage;
+};
+
+export type ProductImage = {
+  thumbnails?: string[];
+  previews?: string[];
 };

@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Product } from "@/types/product";
 import Image from "next/image";
 import { FaPencilAlt } from "react-icons/fa";
-import EditProductModal from "./EditProductModal"; // Importa el modal
+import EditProductModal from "./EditProductModal";
 import CustomImage from "@/components/images/CustomImage";
 
 interface Props {
@@ -17,10 +17,12 @@ const Vew1 = ({ item, loadAllProduct }: Props) => {
   return (
     <div className="group">
       <div className="relative overflow-hidden flex items-center justify-center rounded-lg bg-white shadow-1 min-h-[270px] mb-4">
-        <CustomImage 
-        src={item.imgs?.previews[0]} 
-        // src='https://res.cloudinary.com/drwvuf0ee/image/upload/v1739154317/tiezyw5cxzr8i8n4fddc.png'
-        alt="" width={250} height={250} />
+        <CustomImage
+          src={item.imgs?.previews[0]}
+          alt=""
+          width={250}
+          height={250}
+        />
 
         <div className="absolute left-0 bottom-0 translate-y-full w-full flex items-center justify-center gap-2.5 pb-5 ease-linear duration-200 group-hover:translate-y-0">
           <button
@@ -57,7 +59,11 @@ const Vew1 = ({ item, loadAllProduct }: Props) => {
       </span>
 
       {isModalOpen && (
-        <EditProductModal item={item} onClose={() => setIsModalOpen(false)} loadAllProduct={loadAllProduct}/>
+        <EditProductModal
+          item={item}
+          onClose={() => setIsModalOpen(false)}
+          loadAllProduct={loadAllProduct}
+        />
       )}
     </div>
   );
