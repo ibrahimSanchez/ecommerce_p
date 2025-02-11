@@ -29,6 +29,7 @@ export const ProductImageForm = ({ files, setFiles }: Props) => {
           type="file"
           name="file Previews"
           multiple
+          // required
           accept="image/*"
           className="w-full p-2 border border-gray-300 rounded-lg"
           onChange={handleChangePreviews}
@@ -41,6 +42,7 @@ export const ProductImageForm = ({ files, setFiles }: Props) => {
           type="file"
           name="file thumbnails"
           multiple
+          // required
           accept="image/*"
           className="w-full p-2 border border-gray-300 rounded-lg"
           onChange={handleChangeThumbnails}

@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { registerUser } from "@/api";
 import { CreateUser } from "@/types/user";
 import Link from "next/link";
-import Notification from "../notification/Notification";
+import Notification from "../Notification/Notification";
 import { NotificationAttributes } from "@/types/notificationAttributes";
 import { useRouter } from "next/navigation";
 

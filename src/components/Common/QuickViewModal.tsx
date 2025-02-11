@@ -6,9 +6,11 @@ import { AppDispatch, useAppSelector } from "@/redux/store";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import { useDispatch } from "react-redux";
 import { usePreviewSlider } from "@/app/context/PreviewSliderContext";
-import { resetQuickView } from "@/redux/features/quickView-slice";
+// import { resetQuickView } from "@/redux/features/quickView-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
 import CustomImage from "../images/CustomImage";
+import Image from "next/image";
+import { calculatePercentage } from "@/helper";
 
 const QuickViewModal = () => {
   const { isModalOpen, closeModal } = useModalContext();
@@ -42,6 +44,8 @@ const QuickViewModal = () => {
   };
 
   useEffect(() => {
+    // console.log(product)
+
     // closing modal while clicking outside
     function handleClickOutside(event) {
       if (!event.target.closest(".modal-content")) {
@@ -150,16 +154,35 @@ const QuickViewModal = () => {
 
             <div className="max-w-[445px] w-full">
               <span className="inline-block text-custom-xs font-medium text-white py-1 px-3 bg-green mb-6.5">
-                SALE 20% OFF
+                SALE{" "}
+                {calculatePercentage(product.price, product.discountedPrice)}%
+                OFF
               </span>
 
               <h3 className="font-semibold text-xl xl:text-heading-5 text-dark mb-4">
                 {product.title}
               </h3>
 
+              {/* <!-- stars --> */}
               <div className="flex flex-wrap items-center gap-5 mb-6">
-                <div className="flex items-center gap-1.5">
-                  {/* <!-- stars --> */}
+                <div className="flex items-center gap-2.5 mb-2">
+                  <div className="flex items-center gap-1">
+                    {Array.from(
+                      { length: product.reviews ?? 0 },
+                      (_, index) => (
+                        <Image
+                          key={index}
+                          src="/images/icons/icon-star.svg"
+                          alt="star icon"
+                          width={15}
+                          height={15}
+                        />
+                      )
+                    )}
+                  </div>
+                  <p className="text-custom-sm">({product.reviews})</p>
+                </div>
+                {/* <div className="flex items-center gap-1.5">
                   <div className="flex items-center gap-1">
                     <svg
                       className="fill-[#FFA645]"
@@ -271,7 +294,7 @@ const QuickViewModal = () => {
                     <span className="font-medium text-dark"> 4.7 Rating </span>
                     <span className="text-dark-2"> (5 reviews) </span>
                   </span>
-                </div>
+                </div> */}
 
                 <div className="flex items-center gap-2">
                   <svg
@@ -302,10 +325,7 @@ const QuickViewModal = () => {
                 </div>
               </div>
 
-              <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has.
-              </p>
+              <p>{product.description || "There is no description"}</p>
 
               <div className="flex flex-wrap justify-between gap-5 mt-6 mb-7.5">
                 <div>
@@ -400,7 +420,7 @@ const QuickViewModal = () => {
                   Add to Cart
                 </button>
 
-                <button
+                {/* <button
                   className={`inline-flex items-center gap-2 font-medium text-white bg-dark py-3 px-6 rounded-md ease-out duration-200 hover:bg-opacity-95 `}
                 >
                   <svg
@@ -419,7 +439,7 @@ const QuickViewModal = () => {
                     />
                   </svg>
                   Add to Wishlist
-                </button>
+                </button> */}
               </div>
             </div>
           </div>

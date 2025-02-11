@@ -8,10 +8,23 @@ export const getAllProduct = () => {
   return axios.get(`${BASE_URL}api/products`);
 };
 
-export const updateProductById = (id: string, data: Product) => {
+
+export const createProduct = (data: Product) => {
   const accessToken = Cookies.get("x-token");
 
-  // console.log(data);
+  const config = {
+    headers: {
+      Authorization: accessToken,
+    },
+  };
+  // data.categoryId = '1'
+  return axios.post(`${BASE_URL}api/products`, data, config);
+};
+
+
+
+export const updateProductById = (id: string, data: Product) => {
+  const accessToken = Cookies.get("x-token");
 
   const config = {
     headers: {
@@ -19,9 +32,14 @@ export const updateProductById = (id: string, data: Product) => {
     },
   };
   return axios.patch(`${BASE_URL}api/products/${id}`, data, config);
-  // return {};
 };
 
+
+
+
+
+
+//TODO: for images
 export const uploadProductImage = (data) => {
   return axios.post(`${BASE_URL}api/file/upload`, data);
 };

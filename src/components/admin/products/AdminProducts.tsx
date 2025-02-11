@@ -250,7 +250,7 @@ const AdminProducts = () => {
                   )
                 )}
 
-                <AddProduct />
+                <AddProduct loadAllProduct={loadAllProduct} />
               </div>
               {/* <!-- Products Grid Tab Content End --> */}
               {

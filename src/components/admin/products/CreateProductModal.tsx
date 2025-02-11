@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Product, ProductImage } from "@/types/product";
 import { MdOutlineClose } from "react-icons/md";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { updateProductById, uploadAllProductImages } from "@/api";
+import { createProduct, uploadAllProductImages } from "@/api";
 import { NotificationAttributes } from "@/types/notificationAttributes";
 import Notification from "@/components/Notification/Notification";
 import { ProductImageForm } from "@/components/form/ProductImageForm";
@@ -11,47 +11,38 @@ import { buildImages } from "@/helper";
 import { useCategories } from "@/hooks";
 
 interface Props {
-  item: Product;
   onClose: () => void;
   loadAllProduct: () => void;
 }
 
-const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
-  const { allCategories, error, loading } = useCategories();
+const CreateProductModal = ({ onClose, loadAllProduct }: Props) => {
+  const { allCategories, loading, error } = useCategories();
   const [showNotification, setShowNotification] = useState(false);
   const [notificationAttributes, setNotificationAttributes] =
     useState<NotificationAttributes>({
       message: "",
       error: false,
     });
-
   const [files, setFiles] = useState<ProductImage>({
     previews: [],
     thumbnails: [],
   });
-
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
-  } = useForm<Product>({
-    defaultValues: item,
-  });
-
-  useEffect(() => {
-    reset(item);
-  }, [item, reset]);
+  } = useForm<Product>();
 
   const onSubmit: SubmitHandler<Product> = async (data) => {
+    // console.log(data);
     try {
-      if (files.previews.length > 0 || files.thumbnails.length > 0) {
+      if (files.previews.length !== 0 && files.thumbnails.length !== 0) {
         const uploadRes = await uploadAllProductImages(files);
-        if (uploadRes) {
-          data.imgs = buildImages(uploadRes);
-        }
+        const formattedImages = buildImages(uploadRes);
+
+        data.imgs = formattedImages;
+        createAction(data);
       }
-      await updateAction(data);
     } catch (error) {
       setNotificationAttributes({
         message: error.response?.data?.message || "An error occurred",
@@ -61,20 +52,23 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
     }
   };
 
-  const updateAction = async (data) => {
+  const createAction = async (data) => {
     try {
-      await updateProductById(item.id, data);
+      // console.log(data);
+      const res = await createProduct(data);
+      // console.log(res);
       loadAllProduct();
       setNotificationAttributes({
-        message: "Product successfully modified",
+        message: "Product successfully created",
         error: false,
       });
       setShowNotification(true);
 
       setTimeout(() => {
         onClose();
-      }, 2000);
+      }, 2500);
     } catch (error) {
+      // console.log(error);
       setNotificationAttributes({
         message: error.response?.data?.message || "An error occurred",
         error: true,
@@ -91,9 +85,9 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
           onClose={() => setShowNotification(false)}
         />
       )}
-      <div className="fixed inset-0 flex items-center justify-center bg-[#000] bg-opacity-70 z-9999">
+      <div className="fixed inset-0 flex items-center justify-center bg-[#000] bg-opacity-70 z-99999 ">
         <div className="bg-white rounded-lg shadow-lg w-96">
-          <div className="w-full flex justify-end p-2">
+          <div className="w-full flex justify-end p-1">
             <button className="cursor-pointer" onClick={onClose}>
               <MdOutlineClose size={30} />
             </button>
@@ -102,7 +96,6 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
           <div className="px-6 pb-6">
             <h2 className="text-xl font-bold mb-4">Edit Product</h2>
           </div>
-
           <form
               onSubmit={handleSubmit(onSubmit)}
               className="overflow-auto max-h-[400px] px-6 pb-6"
@@ -117,7 +110,7 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                   id="title"
                   placeholder="Enter title"
                   className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
-                  {...register("title")}
+                  {...register("title", { required: true })}
                 />
               </div>
 
@@ -131,7 +124,7 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                   id="reviews"
                   placeholder="Enter reviews count"
                   className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
-                  {...register("reviews", { max: 5, min: 1 })}
+                  {...register("reviews", { required: true, max: 5, min: 1 })}
                 />
               </div>
 
@@ -146,9 +139,10 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                   id="price"
                   placeholder="Enter price"
                   className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
-                  {...register("price")}
+                  {...register("price", { required: true })}
                 />
               </div>
+
               {/* Discounted Price */}
               <div className="mb-5">
                 <label htmlFor="discountedPrice" className="block mb-2.5">
@@ -160,11 +154,25 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                   id="discountedPrice"
                   placeholder="Enter discounted price"
                   className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
-                  {...register("discountedPrice")}
+                  {...register("discountedPrice", { required: true })}
                 />
               </div>
 
-              {/* Category */}
+              {/* Quantity */}
+              <div className="mb-5">
+                <label htmlFor="quantity" className="block mb-2.5">
+                  Quantity
+                </label>
+                <input
+                  type="number"
+                  id="quantity"
+                  placeholder="Enter quantity"
+                  className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
+                  {...register("quantity", { required: true })}
+                />
+              </div>
+
+              {/* Category ID */}
               <div className="mb-5">
                 <label htmlFor="categoryId" className="block mb-2.5">
                   Category
@@ -174,9 +182,8 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                   className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
                   {...register("categoryId")}
                   disabled={loading}
-                  defaultValue={item.categoryId}
                 >
-                  {/* <option value="">Select a category</option> */}
+                  <option value="">Select a category</option>
                   {allCategories.map((category) => (
                     <option key={category.id} value={category.id}>
                       {category.title}
@@ -199,7 +206,8 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
                 />
               </div>
 
-              {/* Image Upload */}
+              {/* Image Upload (Previews) */}
+
               <ProductImageForm files={files} setFiles={setFiles} />
 
               <div className="flex justify-end gap-2 mt-4">
@@ -223,4 +231,4 @@ const EditProductModal = ({ item, onClose, loadAllProduct }: Props) => {
   );
 };
 
-export default EditProductModal;
+export default CreateProductModal;

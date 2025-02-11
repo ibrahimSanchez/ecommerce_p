@@ -107,12 +107,12 @@ const CartSidebarModal = () => {
                 View Cart
               </Link>
 
-              <Link
+              {/* <Link
                 href="/checkout"
                 className="w-full flex justify-center font-medium text-white bg-dark py-[13px] px-6 rounded-md ease-out duration-200 hover:bg-opacity-95"
               >
                 Checkout
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>

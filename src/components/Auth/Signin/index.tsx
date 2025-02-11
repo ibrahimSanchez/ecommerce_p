@@ -10,7 +10,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { NotificationAttributes } from "@/types/notificationAttributes";
-import Notification from "@/components/notification/Notification";
+import Notification from "@/components/Notification/Notification";
 
 const Signin = () => {
   const dispatch = useDispatch();

@@ -8,7 +8,7 @@ import { updateQuickView } from "@/redux/features/quickView-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
 import Image from "next/image";
 import Link from "next/link";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+// import { addItemToWishlist } from "@/redux/features/wishlist-slice";
 
 const SingleItem = ({ item }: { item: Product }) => {
   const { openModal } = useModalContext();
@@ -29,15 +29,15 @@ const SingleItem = ({ item }: { item: Product }) => {
     );
   };
 
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
-  };
+  // const handleItemToWishList = () => {
+  //   dispatch(
+  //     addItemToWishlist({
+  //       ...item,
+  //       status: "available",
+  //       quantity: 1,
+  //     })
+  //   );
+  // };
 
   return (
     <div className="group">
@@ -45,36 +45,15 @@ const SingleItem = ({ item }: { item: Product }) => {
         <div className="text-center px-4 py-7.5">
           <div className="flex items-center justify-center gap-2.5 mb-2">
             <div className="flex items-center gap-1">
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={14}
-                height={14}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={14}
-                height={14}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={14}
-                height={14}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={14}
-                height={14}
-              />
-              <Image
-                src="/images/icons/icon-star.svg"
-                alt="star icon"
-                width={14}
-                height={14}
-              />
+              {Array.from({ length: item.reviews ?? 0 }, (_, index) => (
+                <Image
+                  key={index}
+                  src="/images/icons/icon-star.svg"
+                  alt="star icon"
+                  width={15}
+                  height={15}
+                />
+              ))}
             </div>
 
             <p className="text-custom-sm">({item.reviews})</p>
@@ -162,7 +141,7 @@ const SingleItem = ({ item }: { item: Product }) => {
             </svg>
           </button>
 
-          <button
+          {/* <button
             onClick={() => {
               handleItemToWishList();
             }}
@@ -185,7 +164,7 @@ const SingleItem = ({ item }: { item: Product }) => {
                 fill=""
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

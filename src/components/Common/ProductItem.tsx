@@ -5,7 +5,7 @@ import { Product } from "@/types/product";
 import { useModalContext } from "@/app/context/QuickViewModalContext";
 import { updateQuickView } from "@/redux/features/quickView-slice";
 import { addItemToCart } from "@/redux/features/cart-slice";
-import { addItemToWishlist } from "@/redux/features/wishlist-slice";
+// import { addItemToWishlist } from "@/redux/features/wishlist-slice";
 import { updateproductDetails } from "@/redux/features/product-details";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
@@ -31,15 +31,15 @@ const ProductItem = ({ item }: { item: Product }) => {
     );
   };
 
-  const handleItemToWishList = () => {
-    dispatch(
-      addItemToWishlist({
-        ...item,
-        status: "available",
-        quantity: 1,
-      })
-    );
-  };
+  // const handleItemToWishList = () => {
+  //   dispatch(
+  //     addItemToWishlist({
+  //       ...item,
+  //       status: "available",
+  //       quantity: 1,
+  //     })
+  //   );
+  // };
 
   const handleProductDetails = () => {
     dispatch(updateproductDetails({ ...item }));
@@ -90,7 +90,7 @@ const ProductItem = ({ item }: { item: Product }) => {
             Add to cart
           </button>
 
-          <button
+          {/* <button
             onClick={() => handleItemToWishList()}
             aria-label="button for favorite select"
             id="favOne"
@@ -111,42 +111,21 @@ const ProductItem = ({ item }: { item: Product }) => {
                 fill=""
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
 
       <div className="flex items-center gap-2.5 mb-2">
         <div className="flex items-center gap-1">
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
-          <Image
-            src="/images/icons/icon-star.svg"
-            alt="star icon"
-            width={14}
-            height={14}
-          />
+          {Array.from({ length: item.reviews ?? 0 }, (_, index) => (
+            <Image
+              key={index}
+              src="/images/icons/icon-star.svg"
+              alt="star icon"
+              width={15}
+              height={15}
+            />
+          ))}
         </div>
 
         <p className="text-custom-sm">({item.reviews})</p>

@@ -86,7 +86,7 @@ const SingleGridItem = ({ item }: { item: Product }) => {
             Add to cart
           </button>
 
-          <button
+          {/* <button
             onClick={() => handleItemToWishList()}
             aria-label="button for favorite select"
             id="favOne"
@@ -107,7 +107,7 @@ const SingleGridItem = ({ item }: { item: Product }) => {
                 fill=""
               />
             </svg>
-          </button>
+          </button> */}
         </div>
       </div>
 

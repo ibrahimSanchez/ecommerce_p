@@ -4,7 +4,7 @@ import { NotificationAttributes } from "@/types/notificationAttributes";
 import { User } from "@/types/user";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import Notification from "../notification/Notification";
+import Notification from "../Notification/Notification";
 
 interface Props {
   user: User;

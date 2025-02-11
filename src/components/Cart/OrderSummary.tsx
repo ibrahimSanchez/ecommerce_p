@@ -8,8 +8,9 @@ import { useAppSelector } from "@/redux/store";
 import React, { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "../notification/Notification";
+import Notification from "../Notification/Notification";
 import { NotificationAttributes } from "@/types/notificationAttributes";
+import { useRouter } from "next/navigation";
 
 type FormData = {
   delivery_address: string;
@@ -22,9 +23,11 @@ const OrderSummary = () => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const accessToken = useAppSelector((state) => state.auth.accessToken);
   const cartItems = useAppSelector((state) => state.cartReducer.items);
   const totalPrice = useSelector(selectTotalPrice);
   const dispatch = useDispatch();
+  const route = useRouter();
 
   const [showNotification, setShowNotification] = useState(false);
   const [notificationAttributes, setNotificationAttributes] =
@@ -41,6 +44,7 @@ const OrderSummary = () => {
     }));
 
     try {
+      if (!accessToken) route.push("/auth/signin");
       const res = await createOrder({
         arrayItems,
         total_amount: totalPrice,

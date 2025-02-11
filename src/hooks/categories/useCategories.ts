@@ -1,17 +1,23 @@
 import { useState, useEffect } from "react";
-import { getProductCountByCategory } from "@/api"; 
-import { Category } from "@/types/category"; 
+import { getAllCategories, getProductCountByCategory } from "@/api";
+import { Category } from "@/types/category";
 
 export const useCategories = () => {
+  const [allCategories, setAllCategories] = useState<Category[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const loadAllCategories = async () => {
+    const loadCategories = async () => {
       setLoading(true);
       try {
-        const res = await getProductCountByCategory(); 
+        const [resAll, res] = await Promise.all([
+          getAllCategories(),
+          getProductCountByCategory(),
+        ]);
+
+        setAllCategories(resAll.data);
         setCategories(res.data);
       } catch (error) {
         setError("Error loading categories");
@@ -20,12 +26,8 @@ export const useCategories = () => {
       }
     };
 
-    loadAllCategories();
+    loadCategories();
   }, []);
 
-  return { categories, loading, error };
+  return { categories, loading, error, allCategories };
 };
-
-// products
-//title
-//id
