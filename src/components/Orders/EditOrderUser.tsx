@@ -1,21 +1,33 @@
+import { updateOrderStatus } from "@/api";
+import { AccountOrder } from "@/types/order";
 import React, { useState } from "react";
 import toast from "react-hot-toast";
 
-const EditOrder = ({ order, toggleModal }: any) => {
+interface Props {
+  order: AccountOrder;
+  toggleModal: (a: boolean) => void;
+  loadOrders: () => void;
+}
+
+const EditOrderUser = ({ order, toggleModal, loadOrders }: Props) => {
   const [currentStatus, setCurrentStatus] = useState(order?.status);
   const handleChanege = (e: any) => {
     setCurrentStatus(e.target.value);
   };
 
-  const handleSubmit = (e: any) => {
-    e.preventDefault();
-
+  const handleSubmit = async () => {
     if (!currentStatus) {
       toast.error("Please select a status");
       return;
     }
 
-    toggleModal(false);
+    try {
+      const res = await updateOrderStatus(order.id, "canceled");
+    } catch (error) {
+    } finally {
+      loadOrders();
+      toggleModal(false);
+    }
   };
 
   return (
@@ -27,16 +39,17 @@ const EditOrder = ({ order, toggleModal }: any) => {
           name="status"
           id="status"
           required
+          disabled
           onChange={handleChanege}
+          defaultValue={order?.status || "pending"}
         >
-          <option value="pending">Pending</option>
-          <option value="delivered">Delivered</option>
           <option value="canceled">Canceled</option>
         </select>
 
         <button
           className="mt-5 w-full rounded-[10px] border border-blue-1 bg-blue-1 text-white py-3.5 px-5 text-custom-sm bg-blue"
           onClick={handleSubmit}
+          disabled={order.status === "canceled" || order.status === "delivered"}
         >
           Save Changes
         </button>
@@ -45,4 +58,4 @@ const EditOrder = ({ order, toggleModal }: any) => {
   );
 };
 
-export default EditOrder;
+export default EditOrderUser;

@@ -5,6 +5,7 @@ import { User } from "@/types/user";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Notification from "../Notification/Notification";
+import { useNotification } from "@/app/context/NotificationContext";
 
 interface Props {
   user: User;
@@ -17,13 +18,7 @@ export const ChangeUserInformationForm = ({
   closeModal,
   loadUserAccount,
 }: Props) => {
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationAttributes, setNotificationAttributes] =
-    useState<NotificationAttributes>({
-      message: "",
-      error: false,
-    });
-
+  const { showNotification } = useNotification();
   const {
     register,
     handleSubmit,
@@ -40,34 +35,21 @@ export const ChangeUserInformationForm = ({
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
       const res = await updateUserAccount(data);
+      showNotification({ message: "User information modified correctly.", error: false });
+
       loadUserAccount();
 
-      setNotificationAttributes({
-        message: "Correctly modified information.",
-        error: false,
-      });
-      setShowNotification(true);
-
-      setTimeout(() => {
-        closeModal();
-      }, 2500);
+      closeModal();
     } catch (error) {
-      setNotificationAttributes({
+      showNotification({
         message: error.response?.data?.message || "An error occurred",
         error: true,
       });
-      setShowNotification(true);
     }
   };
 
   return (
     <div>
-      {showNotification && (
-        <Notification
-          notificationAttributes={notificationAttributes}
-          onClose={() => setShowNotification(false)}
-        />
-      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
           <div className="w-full">

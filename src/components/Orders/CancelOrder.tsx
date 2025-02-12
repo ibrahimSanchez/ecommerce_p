@@ -2,17 +2,18 @@ import { updateOrderStatus } from "@/api";
 import React from "react";
 
 export const CancelOrder = ({ order, toggleModal, loadOrders }: any) => {
-  console.log(order);
+  // console.log(order);
 
   const handleAccept = async () => {
     try {
-      const res = await updateOrderStatus({ id: order.id, status: "canceled" });
-      // console.log(res);
+      const res = await updateOrderStatus(order.id, "canceled");
+      console.log(res);
     } catch (error) {
       console.log(error);
+    } finally {
+      loadOrders();
+      toggleModal(false);
     }
-    loadOrders();
-    toggleModal(false);
   };
 
   const handleCancel = () => {

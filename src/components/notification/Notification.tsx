@@ -27,9 +27,9 @@ const Notification: React.FC<NotificationProps> = ({
 
   return (
     <div
-      className={`fixed top-10 ${
+      className={`fixed top-4 right-4 sm:right-1/2 sm:translate-x-1/2 ${
         !error ? "bg-blue-light" : "bg-red-light"
-      } text-white px-8 py-3 rounded-lg shadow-lg transition-opacity duration-300 z-999999`}
+      } text-white px-8 py-3 rounded-lg shadow-lg transition-opacity duration-300 z-[9999]`}
     >
       {message}
     </div>

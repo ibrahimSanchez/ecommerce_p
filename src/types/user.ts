@@ -6,7 +6,7 @@ export type User = {
   password: string;
   phone: string;
   address: string;
-
+  role?: string;
   active?: boolean;
   activation_token?: string;
   reset_password_token?: string;

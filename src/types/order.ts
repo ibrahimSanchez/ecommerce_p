@@ -1,13 +1,16 @@
-type OrderItem = {
+export type OrderItem = {
   productId: string;
   quantity: number;
   price: number;
 };
 
 export type Order = {
+  id?: string;
   total_amount: number;
   delivery_address: string;
-  arrayItems: OrderItem[];
+  arrayItems?: OrderItem[];
+  createdAt?: string;
+  status?: string;
 };
 
 export type AccountOrder = {

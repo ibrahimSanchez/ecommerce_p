@@ -1,4 +1,4 @@
-import { Order, OrderStatus } from "@/types/order";
+import { Order } from "@/types/order";
 import axios from "axios";
 import Cookies from "js-cookie";
 
@@ -9,7 +9,7 @@ export const createOrder = (data: Order) => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken,
     },
   };
 
@@ -21,7 +21,7 @@ export const getOrderByUser = () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken,
     },
   };
 
@@ -33,24 +33,40 @@ export const getAllOrder = () => {
 
   const config = {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken,
     },
   };
 
   return axios.get(`${BASE_URL}api/orders/admin`, config);
 };
 
-export const updateOrderStatus = (data: OrderStatus) => {
+export const updateOrderStatus = (id: string, status: string) => {
   const accessToken = Cookies.get("x-token");
-  const { id } = data;
-
   const config = {
     headers: {
-      Authorization: `Bearer ${accessToken}`,
+      Authorization: accessToken,
     },
   };
 
-  return axios.patch(`${BASE_URL}api/orders/change-status/${id}`, data, config);
+  return axios.patch(
+    `${BASE_URL}api/orders/change-status/${id}`,
+    { status },
+    config
+  );
+};
+
+export const deletedOrder = (id: string) => {
+  const accessToken = Cookies.get("x-token");
+
+  // console.log(id)
+
+  const config = {
+    headers: {
+      Authorization: accessToken,
+    },
+  };
+
+  return axios.delete(`${BASE_URL}api/orders/${id}`, config);
 };
 
 // /change-status/:id

@@ -5,12 +5,12 @@ import {
   selectTotalPrice,
 } from "@/redux/features/cart-slice";
 import { useAppSelector } from "@/redux/store";
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import Notification from "../Notification/Notification";
-import { NotificationAttributes } from "@/types/notificationAttributes";
 import { useRouter } from "next/navigation";
+import { OrderItem } from "@/types/order";
+import { useNotification } from "@/app/context/NotificationContext";
 
 type FormData = {
   delivery_address: string;
@@ -28,16 +28,10 @@ const OrderSummary = () => {
   const totalPrice = useSelector(selectTotalPrice);
   const dispatch = useDispatch();
   const route = useRouter();
-
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationAttributes, setNotificationAttributes] =
-    useState<NotificationAttributes>({
-      message: "",
-      error: false,
-    });
+  const { showNotification } = useNotification();
 
   const onSubmit: SubmitHandler<FormData> = async (data) => {
-    const arrayItems = cartItems.map((item) => ({
+    const arrayItems: OrderItem[] = cartItems.map((item) => ({
       productId: item.id,
       quantity: item.quantity,
       price: item.price,
@@ -50,34 +44,18 @@ const OrderSummary = () => {
         total_amount: totalPrice,
         delivery_address: data.delivery_address,
       });
-      // console.log(res);
-      setNotificationAttributes({
-        message: "Purchase order added",
-        error: false,
-      });
-      setShowNotification(true);
-
-      setTimeout(() => {
-        dispatch(removeAllItemsFromCart());
-      }, 2500);
+      showNotification({ message: "Purchase order added", error: false });
+      dispatch(removeAllItemsFromCart());
     } catch (error) {
-      setNotificationAttributes({
+      showNotification({
         message: error.response?.data?.message || "An error occurred",
         error: true,
       });
-      setShowNotification(true);
     }
   };
 
   return (
     <div className="lg:max-w-[455px] w-full">
-      {showNotification && (
-        <Notification
-          notificationAttributes={notificationAttributes}
-          onClose={() => setShowNotification(false)}
-        />
-      )}
-
       {/* <!-- order list box --> */}
       <div className="bg-white shadow-1 rounded-[10px]">
         <div className="border-b border-gray-3 py-5 px-4 sm:px-8.5">

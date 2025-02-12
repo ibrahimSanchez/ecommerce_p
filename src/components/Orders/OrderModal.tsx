@@ -1,14 +1,16 @@
-import React, { useRef, useEffect } from "react";
+import React from "react";
 import OrderDetails from "./OrderDetails";
-import EditOrder from "./EditOrder";
 import { AccountOrder } from "@/types/order";
-import { CancelOrder } from "./CancelOrder";
+import { DeletedOrder } from "./DeletedOrder";
+import EditOrderAdmin from "./EditOrderAdmin";
+import { useUsers } from "@/hooks";
+import EditOrderUser from "./EditOrderUser";
 
 interface Props {
   showDetails: boolean;
-  showCancel: boolean;
   showEdit: boolean;
-  toggleModal: (a) => void;
+  showDeleted: boolean;
+  toggleModal: (a: boolean) => void;
   loadOrders: () => void;
   order: AccountOrder;
 }
@@ -16,14 +18,34 @@ interface Props {
 const OrderModal = ({
   showDetails,
   showEdit,
-  showCancel,
+  showDeleted,
   toggleModal,
   order,
   loadOrders,
 }: Props) => {
-  if (!showDetails && !showEdit && !showCancel) {
+  const { userAccount } = useUsers();
+
+  if (!showDetails && !showEdit && !showDeleted) {
     return null;
   }
+
+  const role = userAccount.role || "user_role";
+
+  const editOrder = () => {
+    return role === "admin_role" ? (
+      <EditOrderAdmin
+        order={order}
+        toggleModal={toggleModal}
+        loadOrders={loadOrders}
+      />
+    ) : (
+      <EditOrderUser
+        order={order}
+        toggleModal={toggleModal}
+        loadOrders={loadOrders}
+      />
+    );
+  };
 
   return (
     <>
@@ -52,9 +74,10 @@ const OrderModal = ({
           <>
             {showDetails && <OrderDetails orderItem={order} />}
 
-            {showEdit && <EditOrder order={order} toggleModal={toggleModal} />}
-            {showCancel && (
-              <CancelOrder
+            {showEdit && editOrder()}
+
+            {showDeleted && (
+              <DeletedOrder
                 order={order}
                 toggleModal={toggleModal}
                 loadOrders={loadOrders}

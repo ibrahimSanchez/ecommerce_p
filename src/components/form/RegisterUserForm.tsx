@@ -1,22 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { registerUser } from "@/api";
 import { CreateUser } from "@/types/user";
 import Link from "next/link";
-import Notification from "../Notification/Notification";
-import { NotificationAttributes } from "@/types/notificationAttributes";
 import { useRouter } from "next/navigation";
+import { useNotification } from "@/app/context/NotificationContext";
 
 export const RegisterUserForm = () => {
   const router = useRouter();
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationAttributes, setNotificationAttributes] =
-    useState<NotificationAttributes>({
-      message: "",
-      error: false,
-    });
+
+  const { showNotification } = useNotification();
 
   const {
     register,
@@ -29,34 +24,23 @@ export const RegisterUserForm = () => {
     if (password === confirmPassword) {
       try {
         const res = await registerUser(data);
-        setNotificationAttributes({
-          message: "Registro exitoso",
+        showNotification({
+          message: "Successfully created user account.",
           error: false,
         });
-        setShowNotification(true);
 
-        setTimeout(() => {
-          router.push("/auth/signin");
-        }, 2500);
+        router.push("/auth/signin");
       } catch (error) {
-        setNotificationAttributes({
-          message:
-            error.response?.data?.message || "Error al registrar el usuario",
+        showNotification({
+          message: error.response?.data?.message || "An error occurred",
           error: true,
         });
-        setShowNotification(true);
       }
     }
   };
 
   return (
     <div className="mt-5.5">
-      {showNotification && (
-        <Notification
-          notificationAttributes={notificationAttributes}
-          onClose={() => setShowNotification(false)}
-        />
-      )}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="mb-5">
           <label htmlFor="name" className="block mb-2.5">
@@ -105,7 +89,7 @@ export const RegisterUserForm = () => {
 
         <div className="mb-5">
           <label htmlFor="email" className="block mb-2.5">
-          Address <span className="text-red">*</span>
+            Address <span className="text-red">*</span>
           </label>
 
           <input

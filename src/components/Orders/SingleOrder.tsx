@@ -6,7 +6,7 @@ import OrderModal from "./OrderModal";
 const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
   const [showDetails, setShowDetails] = useState(false);
   const [showEdit, setShowEdit] = useState(false);
-  const [showCancel, setShowCancel] = useState(false);
+  const [showDeleted, setShowDeleted] = useState(false);
 
   const toggleDetails = () => {
     setShowDetails(!showDetails);
@@ -16,14 +16,14 @@ const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
     setShowEdit(!showEdit);
   };
 
-  const toggleCancel = () => {
-    setShowCancel(!showCancel);
+  const toggleDeleted = () => {
+    setShowDeleted(!showDeleted);
   };
 
   const toggleModal = (status: boolean) => {
     setShowDetails(status);
     setShowEdit(status);
-    setShowCancel(status);
+    setShowDeleted(status);
   };
 
   return (
@@ -63,10 +63,9 @@ const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
 
           <div className="flex gap-5 items-center">
             <OrderActions
-              orderStatus={orderItem.status}
               toggleDetails={toggleDetails}
               toggleEdit={toggleEdit}
-              toggleCancel={toggleCancel}
+              toggleDeleted={toggleDeleted}
             />
           </div>
         </div>
@@ -131,10 +130,9 @@ const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
               <p className="text-custom-sm text-dark flex items-center">
                 <span className="font-bold pr-2">Actions:</span>{" "}
                 <OrderActions
-                  orderStatus={orderItem.status}
+                  toggleDeleted={toggleDeleted}
                   toggleDetails={toggleDetails}
                   toggleEdit={toggleEdit}
-                  toggleCancel={toggleCancel}
                 />
               </p>
             </div>
@@ -145,7 +143,7 @@ const SingleOrder = ({ orderItem, smallView, loadOrders }: any) => {
       <OrderModal
         showDetails={showDetails}
         showEdit={showEdit}
-        showCancel={showCancel}
+        showDeleted={showDeleted}
         toggleModal={toggleModal}
         order={orderItem}
         loadOrders={loadOrders}

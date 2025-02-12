@@ -1,14 +1,18 @@
 "use client";
 
 import { changeassword } from "@/api";
+import { useNotification } from "@/app/context/NotificationContext";
 import { ChangePassword } from "@/types/user";
 import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 
 export const ChangePasswordForm = () => {
+  const { showNotification } = useNotification();
+
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
   } = useForm<ChangePassword>();
 
@@ -17,11 +21,17 @@ export const ChangePasswordForm = () => {
     if (newPassword === confirmNewPassword) {
       try {
         const res = await changeassword({ newPassword, oldPassword });
-        // console.log(res);
+        showNotification({
+          message: "Password successfully modified.",
+          error: false,
+        });
       } catch (error) {
-        console.log(
-          error.response?.data?.message || "Error en el cambio de contraseña"
-        );
+        showNotification({
+          message: error.response?.data?.message || "An error occurred",
+          error: true,
+        });
+      } finally {
+        reset();
       }
     }
   };

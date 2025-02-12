@@ -5,22 +5,16 @@ import Breadcrumb from "@/components/Common/Breadcrumb";
 import { setAccessToken } from "@/redux/features/auth-slice";
 import { Login } from "@/types/login";
 import Link from "next/link";
-import React, { useState } from "react";
+import React from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
-import { NotificationAttributes } from "@/types/notificationAttributes";
-import Notification from "@/components/Notification/Notification";
+import { useNotification } from "@/app/context/NotificationContext";
 
 const Signin = () => {
   const dispatch = useDispatch();
 
-  const [showNotification, setShowNotification] = useState(false);
-  const [notificationAttributes, setNotificationAttributes] =
-    useState<NotificationAttributes>({
-      message: "",
-      error: false,
-    });
+  const { showNotification } = useNotification();
 
   const router = useRouter();
   const {
@@ -35,22 +29,15 @@ const Signin = () => {
       dispatch(setAccessToken(res.data.accessToken));
       router.push("/");
     } catch (error) {
-      setNotificationAttributes({
-        message: error.response?.data?.message || "Error en la autenticación",
+      showNotification({
+        message: error.response?.data?.message || "An error occurred",
         error: true,
       });
-      setShowNotification(true);
     }
   };
 
   return (
     <>
-      {showNotification && (
-        <Notification
-          notificationAttributes={notificationAttributes}
-          onClose={() => setShowNotification(false)}
-        />
-      )}
       <Breadcrumb title={"Signin"} pages={["Signin"]} />
       <section className="overflow-hidden py-20 bg-gray-2">
         <div className="max-w-[1170px] w-full mx-auto px-4 sm:px-8 xl:px-0">

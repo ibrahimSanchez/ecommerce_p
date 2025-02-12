@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { getOrderByUser } from "@/api";
 import { AccountOrder } from "@/types/order";
 import { OrdersTable } from "./OrdersTable";
+import { OrdersTableComponent } from "./OrdersTableComponent";
 
 const Orders = () => {
   const [orders, setOrders] = useState<AccountOrder[]>([]);
@@ -19,7 +20,7 @@ const Orders = () => {
 
   return (
     <>
-      <OrdersTable loadOrders={loadOrders} orders={orders} />
+      <OrdersTableComponent loadOrders={loadOrders} orders={orders} />
     </>
   );
 };

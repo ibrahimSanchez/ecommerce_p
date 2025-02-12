@@ -1,6 +1,5 @@
 "use client";
 
-import { useProducts } from "@/hooks";
 import { useState } from "react";
 
 const CategoryItem = ({ category, addCategoriesId, removeCategoriesId }) => {
@@ -15,7 +14,6 @@ const CategoryItem = ({ category, addCategoriesId, removeCategoriesId }) => {
   const handleSelected = () => {
     selected ? removeCategoriesId(id) : addCategoriesId(id);
     setSelected(!selected);
-    // console.log(id);
   };
 
   return (
@@ -63,7 +61,11 @@ const CategoryItem = ({ category, addCategoriesId, removeCategoriesId }) => {
   );
 };
 
-const CategoryDropdown = ({ categories, addCategoriesId, removeCategoriesId }) => {
+const CategoryDropdown = ({
+  categories,
+  addCategoriesId,
+  removeCategoriesId,
+}) => {
   const [toggleDropdown, setToggleDropdown] = useState(true);
 
   return (

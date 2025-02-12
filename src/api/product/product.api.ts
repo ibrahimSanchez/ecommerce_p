@@ -8,7 +8,6 @@ export const getAllProduct = () => {
   return axios.get(`${BASE_URL}api/products`);
 };
 
-
 export const createProduct = (data: Product) => {
   const accessToken = Cookies.get("x-token");
 
@@ -21,8 +20,6 @@ export const createProduct = (data: Product) => {
   return axios.post(`${BASE_URL}api/products`, data, config);
 };
 
-
-
 export const updateProductById = (id: string, data: Product) => {
   const accessToken = Cookies.get("x-token");
 
@@ -34,10 +31,16 @@ export const updateProductById = (id: string, data: Product) => {
   return axios.patch(`${BASE_URL}api/products/${id}`, data, config);
 };
 
+export const deletedProductById = (id: string) => {
+  const accessToken = Cookies.get("x-token");
 
-
-
-
+  const config = {
+    headers: {
+      Authorization: accessToken,
+    },
+  };
+  return axios.delete(`${BASE_URL}api/products/${id}`, config);
+};
 
 //TODO: for images
 export const uploadProductImage = (data) => {
