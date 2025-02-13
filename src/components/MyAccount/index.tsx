@@ -191,9 +191,9 @@ const MyAccount = () => {
                     </button> */}
 
                     <button
-                      onClick={() => setActiveTab("addresses")}
+                      onClick={() => setActiveTab("user-data")}
                       className={`flex items-center rounded-md gap-2.5 py-3 px-4.5 ease-out duration-200 hover:bg-blue hover:text-white ${
-                        activeTab === "addresses"
+                        activeTab === "user-data"
                           ? "text-white bg-blue"
                           : "text-dark-2 bg-gray-1"
                       }`}
@@ -217,7 +217,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Addresses
+                      User Data
                     </button>
 
                     <button
@@ -375,7 +375,7 @@ const MyAccount = () => {
           <!-- addresses tab content start --> */}
             <div
               className={`xl:max-w-[770px] w-full bg-white rounded-xl shadow-1 py-9.5 px-4 sm:px-7.5 xl:px-10 ${
-                activeTab === "addresses" ? "flex" : "hidden"
+                activeTab === "user-data" ? "flex" : "hidden"
               }`}
             >
               {/* <div className="xl:max-w-[370px] w-full bg-white shadow-1 rounded-xl">
@@ -513,7 +513,7 @@ const MyAccount = () => {
               <div className="w-full bg-white rounded-xl">
                 <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
                   <p className="font-medium text-xl text-dark">
-                    Billing Address
+                  User Data
                   </p>
 
                   <button

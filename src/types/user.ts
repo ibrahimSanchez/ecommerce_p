@@ -34,3 +34,8 @@ export type UpdateUser = {
   email?: string;
   name?: string;
 };
+
+export type Role = {
+  id: string;
+  role: string;
+};

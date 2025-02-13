@@ -56,7 +56,7 @@ const AdminProducts = () => {
     <>
       <Breadcrumb
         title={"Manage Products"}
-        pages={["shop", "/", "Manage products"]}
+        pages={["admin", "/", "Manage products"]}
       />
 
       <section className="overflow-hidden relative pb-20 pt-5 lg:pt-20 xl:pt-28 bg-[#f3f4f6]">

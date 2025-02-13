@@ -33,7 +33,7 @@ export const AdminOrders = () => {
       </section>
 
       <div className="flex flex-col xl:flex-row gap-7.5 bg-gray-2 p-10 min-h-[350px]">
-        <div className="xl:max-w-[270px] w-full rounded-xl shadow-1">
+        <div className="xl:max-w-[270px] w-full rounded-xl">
           <OrderStatusFilter
             selectedStatus={selectedStatus}
             onFilterChange={setSelectedStatus}
