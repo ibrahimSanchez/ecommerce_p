@@ -9,7 +9,7 @@ export const getUserAccount = () => {
 
   const config = {
     headers: {
-      Authorization: accessToken,
+      Authorization: `bearer ${accessToken}`,
     },
   };
 

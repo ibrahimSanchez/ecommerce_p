@@ -44,7 +44,7 @@ export const AdminUsers = () => {
           />
         </div>
         <div className="px-10 w-full">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-7.5 gap-y-9">
+          <div className="grid grid-cols-1 lg:grid-cols-2  gap-x-7.5 gap-y-9">
             {filteredUserRole.map((item) => (
               <UserCard key={item.id} item={item} loadAllUsers={loadUsers} />
             ))}

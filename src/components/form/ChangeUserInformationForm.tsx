@@ -35,7 +35,10 @@ export const ChangeUserInformationForm = ({
   const onSubmit: SubmitHandler<User> = async (data) => {
     try {
       const res = await updateUserAccount(data);
-      showNotification({ message: "User information modified correctly.", error: false });
+      showNotification({
+        message: "User information modified correctly.",
+        error: false,
+      });
 
       loadUserAccount();
 
@@ -54,14 +57,27 @@ export const ChangeUserInformationForm = ({
         <div className="flex flex-col lg:flex-row gap-5 sm:gap-8 mb-5">
           <div className="w-full">
             <label htmlFor="name" className="block mb-2.5">
-              Name
+              firstName
             </label>
 
             <input
               type="text"
-              name="name"
+              name="firstName"
               className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-              {...register("name")}
+              {...register("firstName")}
+            />
+          </div>
+
+          <div className="w-full">
+            <label htmlFor="name" className="block mb-2.5">
+              LastName
+            </label>
+
+            <input
+              type="text"
+              name="lastName"
+              className="rounded-md border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-2.5 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+              {...register("lastName")}
             />
           </div>
 

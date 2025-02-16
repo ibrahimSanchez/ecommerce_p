@@ -1,9 +1,31 @@
+"use client";
 
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { RegisterUserForm } from "@/components/form/RegisterUserForm";
-import React from "react";
+import { setAccessToken } from "@/redux/features/auth-slice";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+
+  const loginGoogle = async () => {
+    window.location.href = "http://localhost:4000/api/auth/google/login";
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get("token");
+    try {
+      if (token) {
+        dispatch(setAccessToken(token));
+      }
+    } catch (error) {
+    } finally {
+      if (token) window.location.href = "http://localhost:3000";
+    }
+  }, [dispatch]);
+
   return (
     <>
       <Breadcrumb title={"Signup"} pages={["Signup"]} />
@@ -18,7 +40,12 @@ const Signup = () => {
             </div>
 
             <div className="flex flex-col gap-4.5">
-              <button className="flex justify-center items-center gap-3.5 rounded-lg border border-gray-3 bg-gray-1 p-3 ease-out duration-200 hover:bg-gray-2">
+              <button
+                onClick={() => {
+                  loginGoogle();
+                }}
+                className="flex justify-center items-center gap-3.5 rounded-lg border border-gray-3 bg-gray-1 p-3 ease-out duration-200 hover:bg-gray-2"
+              >
                 <svg
                   width="20"
                   height="20"
@@ -62,7 +89,7 @@ const Signup = () => {
                     </clipPath>
                   </defs>
                 </svg>
-                Sign Up with Google
+                Sign In with Google
               </button>
 
               {/* <button className="flex justify-center items-center gap-3.5 rounded-lg border border-gray-3 bg-gray-1 p-3 ease-out duration-200 hover:bg-gray-2">

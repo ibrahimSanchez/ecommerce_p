@@ -12,6 +12,7 @@ import { useUsers } from "@/hooks";
 import { ConfirmAction } from "../modals/ConfirmAction";
 import { jwtData } from "@/helper";
 import AdminPanel from "../admin";
+import { signout } from "@/api";
 
 const MyAccount = () => {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -36,8 +37,13 @@ const MyAccount = () => {
   };
 
   const handleAccept = async () => {
-    dispatch(clearAccessToken());
-    route.push("/");
+    try {
+      const res = await signout();
+      dispatch(clearAccessToken());
+      route.push("/");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   jwtData();
@@ -73,7 +79,7 @@ const MyAccount = () => {
 
                   <div>
                     <p className="font-medium text-dark mb-0.5">
-                      {userAccount?.name || ""}
+                      {`${userAccount?.firstName} ${userAccount?.lastName}`}
                     </p>
                     <p className="text-custom-xs">{userAccount?.email || ""}</p>
                   </div>
@@ -333,7 +339,8 @@ const MyAccount = () => {
               }`}
             >
               <p className="text-dark">
-                Hello {userAccount?.name || ""} (not {userAccount?.name || ""}?
+                Hello {userAccount?.firstName || ""} (not{" "}
+                {userAccount?.firstName || ""}?
                 <a
                   onClick={handleLogout}
                   href="#"
@@ -512,9 +519,7 @@ const MyAccount = () => {
 
               <div className="w-full bg-white rounded-xl">
                 <div className="flex items-center justify-between py-5 px-4 sm:pl-7.5 sm:pr-6 border-b border-gray-3">
-                  <p className="font-medium text-xl text-dark">
-                  User Data
-                  </p>
+                  <p className="font-medium text-xl text-dark">User Data</p>
 
                   <button
                     className="text-dark ease-out duration-200 hover:text-blue"
@@ -562,7 +567,8 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Name: {userAccount?.name}
+                      Name:{" "}
+                      {`${userAccount?.firstName} ${userAccount?.lastName}`}
                     </p>
 
                     <p className="flex items-center gap-2.5 text-custom-sm">
@@ -610,7 +616,7 @@ const MyAccount = () => {
                           fill=""
                         />
                       </svg>
-                      Phone: {userAccount?.phone}
+                      Phone: {userAccount?.phone || "No phone"}
                     </p>
 
                     <p className="flex gap-2.5 text-custom-sm">
@@ -636,7 +642,7 @@ const MyAccount = () => {
                           </clipPath>
                         </defs>
                       </svg>
-                      Address: {userAccount?.address}
+                      Address: {userAccount?.address || "No address"}
                     </p>
                   </div>
                 </div>

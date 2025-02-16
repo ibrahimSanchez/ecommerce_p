@@ -45,14 +45,12 @@ const UserCard = ({ item, loadAllUsers }: Props) => {
     switch (role) {
       case "admin_role":
         return <MdAdminPanelSettings size={16} />;
+      case "courier_role":
+        return <FaUserShield size={16} />;
       case "user_role":
         return <FiUser size={16} />;
       default:
-        return (
-          <div>
-            <FaUserShield size={16} />; sin rol
-          </div>
-        );
+        return <FiUser size={16} />;
     }
   };
 

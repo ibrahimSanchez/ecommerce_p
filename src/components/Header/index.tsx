@@ -76,13 +76,13 @@ const Header = () => {
               />
             </Link>
 
-            <div className="max-w-[475px] w-full">
+            {/* <div className="max-w-[475px] w-full">
               <form>
                 <div className="flex items-center">
                   <CustomSelect options={options} />
 
                   <div className="relative max-w-[333px] sm:min-w-[333px] w-full">
-                    {/* <!-- divider --> */}
+                    
                     <span className="absolute left-0 top-1/2 -translate-y-1/2 inline-block w-px h-5.5 bg-gray-4"></span>
                     <input
                       onChange={(e) => setSearchQuery(e.target.value)}
@@ -117,7 +117,7 @@ const Header = () => {
                   </div>
                 </div>
               </form>
-            </div>
+            </div> */}
           </div>
 
           {/* <!-- header top right --> */}

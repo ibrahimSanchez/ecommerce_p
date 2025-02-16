@@ -24,12 +24,14 @@ export const RegisterUserForm = () => {
     if (password === confirmPassword) {
       try {
         const res = await registerUser(data);
+
+        console.log(res)
         showNotification({
           message: "Successfully created user account.",
           error: false,
         });
 
-        router.push("/auth/signin");
+        // router.push("/auth/signin");
       } catch (error) {
         showNotification({
           message: error.response?.data?.message || "An error occurred",
@@ -42,18 +44,33 @@ export const RegisterUserForm = () => {
   return (
     <div className="mt-5.5">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-5">
-          <label htmlFor="name" className="block mb-2.5">
-            Full Name <span className="text-red">*</span>
+      <div className="mb-5">
+          <label htmlFor="firstName" className="block mb-2.5">
+            First Name <span className="text-red">*</span>
           </label>
 
           <input
             type="text"
-            name="name"
-            id="name"
-            placeholder="Enter your full name"
+            name="firstName"
+            id="firstName"
+            placeholder="Enter your First Name"
             className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-            {...register("name", { required: true })}
+            {...register("firstName", { required: true })}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="lastName" className="block mb-2.5">
+            last Name <span className="text-red">*</span>
+          </label>
+
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            placeholder="Enter your Last Name"
+            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+            {...register("lastName", { required: true })}
           />
         </div>
 
@@ -69,36 +86,6 @@ export const RegisterUserForm = () => {
             placeholder="Enter your email address"
             className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
             {...register("email", { required: true })}
-          />
-        </div>
-
-        <div className="mb-5">
-          <label htmlFor="email" className="block mb-2.5">
-            Phone <span className="text-red">*</span>
-          </label>
-
-          <input
-            type="phone"
-            name="phone"
-            id="phone"
-            placeholder="Enter your phone"
-            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-            {...register("phone", { required: true })}
-          />
-        </div>
-
-        <div className="mb-5">
-          <label htmlFor="email" className="block mb-2.5">
-            Address <span className="text-red">*</span>
-          </label>
-
-          <input
-            type="address"
-            name="address"
-            id="address"
-            placeholder="Enter your address"
-            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
-            {...register("address", { required: true })}
           />
         </div>
 
@@ -139,6 +126,36 @@ export const RegisterUserForm = () => {
               minLength: 6,
               maxLength: 20,
             })}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2.5">
+            Phone 
+          </label>
+
+          <input
+            type="phone"
+            name="phone"
+            id="phone"
+            placeholder="Enter your phone"
+            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+            {...register("phone")}
+          />
+        </div>
+
+        <div className="mb-5">
+          <label htmlFor="email" className="block mb-2.5">
+            Address 
+          </label>
+
+          <input
+            type="address"
+            name="address"
+            id="address"
+            placeholder="Enter your address"
+            className="rounded-lg border border-gray-3 bg-gray-1 placeholder:text-dark-5 w-full py-3 px-5 outline-none duration-200 focus:border-transparent focus:shadow-input focus:ring-2 focus:ring-blue/20"
+            {...register("address")}
           />
         </div>
 

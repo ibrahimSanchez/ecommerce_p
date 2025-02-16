@@ -12,6 +12,7 @@ export const useUsers = () => {
     try {
       const res = await getUserAccount();
       setUserAccount(res.data);
+      // console.log(res.data)
     } catch (error) {
       setError(error);
     } finally {
