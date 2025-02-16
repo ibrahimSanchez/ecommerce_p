@@ -71,17 +71,31 @@ const EditUserModal = ({ item, onClose, loadAllUsers }: Props) => {
             onSubmit={handleSubmit(onSubmit)}
             className="overflow-auto max-h-[400px] px-6 pb-6"
           >
-            {/* name */}
+            {/* first name */}
             <div className="mb-5">
-              <label htmlFor="name" className="block mb-2.5">
-                Name
+              <label htmlFor="firstName" className="block mb-2.5">
+                First Name
               </label>
               <input
                 type="text"
-                id="name"
-                placeholder="Enter name"
+                id="firstName"
+                placeholder="Enter first name"
                 className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
-                {...register("name")}
+                {...register("firstName")}
+              />
+            </div>
+
+            {/* last name */}
+            <div className="mb-5">
+              <label htmlFor="lastName" className="block mb-2.5">
+                Last Name
+              </label>
+              <input
+                type="text"
+                id="lastName"
+                placeholder="Enter last name"
+                className="rounded-lg border border-gray-300 bg-gray-100 w-full py-3 px-5 outline-none focus:ring-2 focus:ring-blue/20"
+                {...register("firstName")}
               />
             </div>
 

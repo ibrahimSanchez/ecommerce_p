@@ -95,7 +95,7 @@ const UserCard = ({ item, loadAllUsers }: Props) => {
                     />
                   </svg>
                   <span className="font-semibold">Name:</span>
-                  {item?.name}
+                  {`${item?.firstName} ${item?.lastName}`}
                 </p>
 
                 <p className="flex items-center gap-2.5 text-custom-sm">
