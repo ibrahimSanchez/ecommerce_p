@@ -31,7 +31,7 @@ export const RegisterUserForm = () => {
           error: false,
         });
 
-        // router.push("/auth/signin");
+        router.push("/auth/signin");
       } catch (error) {
         showNotification({
           message: error.response?.data?.message || "An error occurred",
